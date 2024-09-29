@@ -1,0 +1,22 @@
+openapi: "3.1.0"
+info:
+  title: "Exercise forum API"
+  version: "1.0.0"
+servers:
+  - url: "/api/"
+paths: {}
+components:
+  schemas:
+    Category:
+      required: ['title']
+      type: 'object'
+      properties:
+        title:
+          description: 'Name of muscle category'
+          type: 'string'
+        description:
+          description: 'Description of muscle category'
+          type: 'string'
+        image_url:
+          description: 'Image url for muscle visualization'
+          type: 'string'

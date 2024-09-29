@@ -1,15 +1,15 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import { initialize } from 'express-openapi';
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-
-app.get('/message', (req, res) => {
-    res.json({ message: "Hello from server!" });
+// OpenAPI routes
+initialize({
+    app,
+    apiDoc: 'api-doc.yml',
+    paths: "./paths",
 });
 
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
-  });
+});
