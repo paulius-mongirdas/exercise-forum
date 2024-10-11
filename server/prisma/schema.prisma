@@ -7,10 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id    Int     @id @default(autoincrement())
   name  String? 
-  email String 
+  email String
+  role  Role @default(USER)
+  
+  @@map("users")
 }
 
 model Category {
@@ -18,4 +21,49 @@ model Category {
   title String
   description String?
   image_url String?
+
+  exercises Exercise[]
+
+  @@map("categories")
+}
+
+model Exercise {
+  id    Int     @id @default(autoincrement())
+  title String
+  difficulty Difficulty
+  description String
+  duration Int
+  
+  sets  Int?
+  reps  Int?
+  video_url String?
+
+  categoryId   Int
+  category     Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+
+  @@map("exercises")
+}
+
+model Comment {
+  id    Int     @id @default(autoincrement())
+  text  String
+
+  exerciseId  Int
+  exercise     Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Difficulty {
+  LIGHT
+  MODERATE
+  HARD
+  EXTREME
 }

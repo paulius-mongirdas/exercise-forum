@@ -1,25 +1,35 @@
-//import { Category } from "./categoryDto";
-import { PrismaClient, Category } from '@prisma/client';
-
-// move to singleton later
-
-// A post request should not contain an id.
-export type CategoryCreationParams = Pick<Category, "title" | "description" | "image_url">;
+import { Category } from '@prisma/client';
+import { prisma } from '../prisma'; // Importing the shared Prisma instance
+import { CategoryDto } from './categoryDto';
 
 export class CategoryService {
-  public get(id: number, title?: string): Category {
-    return {
-      id,
-      title: title ?? "",
-      description: "",
-      image_url: "",
-    };
-  }
 
-  public create(categoryCreationParams: CategoryCreationParams): Category {
-    return {
-      id: Math.floor(Math.random() * 10000), // Random
-      ...categoryCreationParams,
-    };
-  }
+    public async getCategories(): Promise<Category[]> {
+        return await prisma.category.findMany();
+    }
+
+    public async getCategory(categoryId: number): Promise<Category | null> {
+        return await prisma.category.findFirst({
+            where: { id: categoryId },
+        });
+    }
+
+    public async createCategory(category: CategoryDto): Promise<Category> {
+        return await prisma.category.create({
+            data: category,
+        });
+    }
+
+    public async updateCategory(categoryId: number, category: CategoryDto): Promise<Category | null> {
+        return await prisma.category.update({
+            where: { id: categoryId },
+            data: category,
+        });
+    }
+
+    public async deleteCategory(categoryId: number): Promise<void> {
+        await prisma.category.delete({
+            where: { id: categoryId },
+        });
+    }
 }
