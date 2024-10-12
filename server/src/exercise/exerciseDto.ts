@@ -21,7 +21,4 @@ export class ExerciseDto {
 
     @IsString()
     video_url?: string;
-
-    @IsNumber()
-    categoryId: number; // remove maybe? as it gets passed by path anyway
 }

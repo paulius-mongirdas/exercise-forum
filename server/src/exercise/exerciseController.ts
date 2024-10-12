@@ -32,19 +32,19 @@ export class ExerciseController extends Controller {
   // POST /api/categories/{categoryId}/exercises
   @SuccessResponse("201", "Created")
   @Post()
-  public async createExercise(@Body() exercise: ExerciseDto): Promise<Exercise> {
-    return new ExerciseService().createExercise(exercise);
+  public async createExercise(@Path() categoryId: number, @Body() exercise: ExerciseDto): Promise<Exercise> {
+    return new ExerciseService().createExercise(categoryId, exercise);
   }
 
   // PUT /api/categories/{categoryId}/exercises/{exerciseId}
   @Put("{exerciseId}")
-  public async updateExercise(@Path() exerciseId: number, @Body() exercise: ExerciseDto): Promise<Exercise | null> {
-    return new ExerciseService().updateExercise(exerciseId, exercise);
+  public async updateExercise(@Path() categoryId: number, @Path() exerciseId: number, @Body() exercise: ExerciseDto): Promise<Exercise | null> {
+    return new ExerciseService().updateExercise(categoryId, exerciseId, exercise);
   }
 
   // DELETE /api/categories/{categoryId}/exercises/{exerciseId}
   @Delete("{exerciseId}")
-  public async deleteExercise(@Path() exerciseId: number): Promise<void> {
-    return new ExerciseService().deleteExercise(exerciseId);
+  public async deleteExercise(@Path() categoryId: number, @Path() exerciseId: number): Promise<void> {
+    return new ExerciseService().deleteExercise(categoryId, exerciseId);
   }
 }

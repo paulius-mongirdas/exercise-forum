@@ -1,11 +1,16 @@
 import { Category } from '@prisma/client';
-import { prisma } from '../prisma'; // Importing the shared Prisma instance
+import { prisma } from '../../prisma/prisma'; // Importing the shared Prisma instance
 import { CategoryDto } from './categoryDto';
 
 export class CategoryService {
 
     public async getCategories(): Promise<Category[]> {
-        return await prisma.category.findMany();
+        try {
+            return await prisma.category.findMany();
+        }
+        catch (error) {
+            throw error
+        }
     }
 
     public async getCategory(categoryId: number): Promise<Category | null> {
