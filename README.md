@@ -424,96 +424,6 @@ enum: [ LIGHT, MODERATE, HARD, EXTREME ]
 
 
 
-
-
-**DefaultSelection_Prisma._36_ExercisePayload_**
-
-**categoryId**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**video_url**:
-
-- **string**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**reps**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**sets**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**duration**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**description**:
-
-- **string**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**difficulty**:
-
-- **_36_Enums.Difficulty**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**title**:
-
-- **string**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**id**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-
-
-
-
 **Exercise**
 
 description: Model Exercise
@@ -534,6 +444,8 @@ description: Model Exercise
 
 - **string**
 
+    - _description: Title of an exercise_
+
     - _required: true_
 
     - _nullable: false_
@@ -541,6 +453,8 @@ description: Model Exercise
 **difficulty**:
 
 - **Difficulty**
+
+    - _description: Difficulty of an exercise (LIGHT, MODERATE, HARD, EXTREME)_
 
     - _required: true_
 
@@ -550,6 +464,8 @@ description: Model Exercise
 
 - **string**
 
+    - _description: Description for an exercise_
+
     - _required: true_
 
     - _nullable: false_
@@ -557,6 +473,8 @@ description: Model Exercise
 **duration**:
 
 - **number**
+
+    - _description: Duration for an exercise (minutes)_
 
     - _format: double_
 
@@ -568,6 +486,8 @@ description: Model Exercise
 
 - **number**
 
+    - _description: Number of sets for an exercise_
+
     - _format: double_
 
     - _required: false_
@@ -577,6 +497,8 @@ description: Model Exercise
 **reps**:
 
 - **number**
+
+    - _description: Number of repetitions for an exercise_
 
     - _format: double_
 
@@ -588,46 +510,11 @@ description: Model Exercise
 
 - **string**
 
+    - _description: Video URL for visualizing an exercise_
+
     - _required: false_
 
     - _nullable: false_
-
-
-
-
-
-**DefaultSelection_Prisma._36_CommentPayload_**
-
-**exerciseId**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**text**:
-
-- **string**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**id**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-
-
 
 
 **Comment**
@@ -644,51 +531,11 @@ description: Model Comment
 
 - **string**
 
-    - _required: true_
-
-    - _nullable: false_
-
-
-
-
-
-**DefaultSelection_Prisma._36_CategoryPayload_**
-
-**image_url**:
-
-- **string**
+    - _description: Comment text_
 
     - _required: true_
 
     - _nullable: false_
-
-**description**:
-
-- **string**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**title**:
-
-- **string**
-
-    - _required: true_
-
-    - _nullable: false_
-
-**id**:
-
-- **number**
-
-    - _format: double_
-
-    - _required: true_
-
-    - _nullable: false_
-
-
 
 
 
@@ -706,6 +553,8 @@ description: Model Category
 
 - **string**
 
+    - _description: Title of a category_
+
     - _required: true_
 
     - _nullable: false_
@@ -713,6 +562,8 @@ description: Model Category
 **description**:
 
 - **string**
+
+    - _description: Description for a category_
 
     - _required: true_
 
@@ -722,12 +573,11 @@ description: Model Category
 
 - **string**
 
+    - _description: URL for an image visualizing a category_
+
     - _required: false_
 
     - _nullable: false_
-
-
-
 
 
 
