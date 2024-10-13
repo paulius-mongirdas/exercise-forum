@@ -1,8 +1,10 @@
 {
-    "entryFile": "app.ts",
+    "entryFile": "src/app.ts",
     "noImplicitAdditionalProperties": "throw-on-extras",
-    "controllerPathGlobs": ["**/*Controller.ts"],
+    "controllerPathGlobs": ["src/**/*Controller.ts"],
     "spec": {
+      "host": "{baseUrl}",
+      "schemes": ["http"],
       "outputDirectory": "build",
       "specVersion": 3
     },

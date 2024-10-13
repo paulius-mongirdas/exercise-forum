@@ -1,5 +1,6 @@
-import express, {json, urlencoded} from "express";
+import express, { json, urlencoded } from "express";
 import { RegisterRoutes } from "../build/routes";
+import { NotFoundError } from "./errors"
 
 export const app = express();
 
@@ -19,7 +20,6 @@ import express, {
   NextFunction,
 } from "express";
 import { ValidateError } from "tsoa";
-// ...
 
 app.use(function errorHandler(
   err: unknown,
@@ -27,16 +27,28 @@ app.use(function errorHandler(
   res: ExResponse,
   next: NextFunction
 ): ExResponse | void {
+  if (err instanceof SyntaxError) {
+    return res.status(400).json({
+      response: "Bad Request (400)",
+      details: err.message,
+    });
+  }
+  if (err instanceof NotFoundError) {
+    return res.status(404).json({
+      response: "Not found (404)",
+      details: err.message,
+    });
+  }
   if (err instanceof ValidateError) {
     console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
     return res.status(422).json({
-      message: "Validation Failed",
+      response: "Validation Failed (422)",
       details: err?.fields,
     });
   }
   if (err instanceof Error) {
     return res.status(500).json({
-      message: "Internal Server Error",
+      response: "Internal Server Error (500)",
     });
   }
 
