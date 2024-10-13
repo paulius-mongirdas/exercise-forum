@@ -424,6 +424,96 @@ enum: [ LIGHT, MODERATE, HARD, EXTREME ]
 
 
 
+
+
+**DefaultSelection_Prisma._36_ExercisePayload_**
+
+**categoryId**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+**video_url**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**reps**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+**sets**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+**duration**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+**description**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**difficulty**:
+
+- **_36_Enums.Difficulty**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**title**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**id**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+
+
+
+
 **Exercise**
 
 description: Model Exercise
@@ -517,6 +607,43 @@ description: Model Exercise
     - _nullable: false_
 
 
+
+
+
+**DefaultSelection_Prisma._36_CommentPayload_**
+
+**exerciseId**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+**text**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**id**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+
+
+
+
 **Comment**
 
 description: Model Comment
@@ -536,6 +663,48 @@ description: Model Comment
     - _required: true_
 
     - _nullable: false_
+
+
+
+
+
+**DefaultSelection_Prisma._36_CategoryPayload_**
+
+**image_url**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**description**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**title**:
+
+- **string**
+
+    - _required: true_
+
+    - _nullable: false_
+
+**id**:
+
+- **number**
+
+    - _format: double_
+
+    - _required: true_
+
+    - _nullable: false_
+
+
 
 
 
@@ -578,6 +747,9 @@ description: Model Category
     - _required: false_
 
     - _nullable: false_
+
+
+
 
 
 
