@@ -16,744 +16,1049 @@ kategorija(raumens_pavadinimas, aprašymas, nuotraukos_url) → pratimas(pavadin
 
 **Naudojamos technologijos:** React (front-end) ir Node.js su Express.js (back-end). Autorizacijai Passport.js. Duomenų bazė – PostgreSQL arba MongoDB.
 
+<!-- Generator: Widdershins v4.1 -->
 
-### **EXERCISE API**
-- **Url**: http://{baseUrl}/
+<h1 id="server">Exercise API v1.0.0</h1>
 
----
-### **Paths**
-### /api/categories/{categoryId}/exercises
+Base URLs:
 
-**GET**
+* <a href="http://{baseUrl}/">http://{baseUrl}/</a>
 
-**Description**: Retrieves a list of existing exercises from a category
+ License: ISC
 
-**[ Parameters ]**
+# Authentication
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
+<h1 id="server-default">Default</h1>
 
-**[ Responses ]**
+## GetExercises
 
-code: 200
+<a id="opIdGetExercises"></a>
 
-description: Ok
+`GET /api/categories/{categoryId}/exercises`
 
-- application/json:
+Retrieves a list of existing exercises from a category
 
-    - type: array ( $schema: Exercise )
+<h3 id="getexercises-parameters">Parameters</h3>
 
-**POST**
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
 
-**Description**: Creates a new exercise for a category
+> Example responses
 
-**[ Parameters ]**
+> 200 Response
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
+```json
+[
+  {
+    "categoryId": 1,
+    "video_url": "string",
+    "reps": 1,
+    "sets": 1,
+    "duration": 1,
+    "description": "string",
+    "difficulty": "LIGHT",
+    "title": "string",
+    "id": 1
+  }
+]
+```
 
-**[ Request Body ]** *
+<h3 id="getexercises-responses">Responses</h3>
 
-- application/json:
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-    - $schema: ExerciseDto
+<h3 id="getexercises-responseschema">Response Schema</h3>
 
-**Example Value**:
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[Exercise](#schemaexercise)]|false|none|none|
+|» categoryId|number|true|none|none|
+|» video_url|string|true|none|none|
+|» reps|number|true|none|none|
+|» sets|number|true|none|none|
+|» duration|number|true|none|none|
+|» description|string|true|none|none|
+|» difficulty|[Difficulty](#schemadifficulty)|true|none|none|
+|» title|string|true|none|none|
+|» id|number|true|none|none|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|difficulty|LIGHT|
+|difficulty|MODERATE|
+|difficulty|HARD|
+|difficulty|EXTREME|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## CreateExercise
+
+<a id="opIdCreateExercise"></a>
+
+`POST /api/categories/{categoryId}/exercises`
+
+Creates a new exercise for a category
+
+> Body parameter
 
 ```json
 {
-    "title" : "Calf raises",
-    "difficulty" : "MODERATE",
-    "description" : "Great medium-intensity exercise for improving calf strength.",
-    "duration" : 3,
-    "sets" : 2,
-    "reps" : 20
+  "title": "string",
+  "difficulty": "LIGHT",
+  "description": "string",
+  "duration": 1,
+  "sets": 1,
+  "reps": 1,
+  "video_url": "string"
 }
 ```
 
-**[ Responses ]**
+<h3 id="createexercise-parameters">Parameters</h3>
 
-code: 201
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|body|body|[ExerciseDto](#schemaexercisedto)|true|Data object describing a new exercise|
 
-description: Created
+> Example responses
 
-- application/json:
-
-    - $schema: Exercise
-
-### /api/categories/{categoryId}/exercises/{exerciseId}
-
-**GET**
-
-**Description**: Retrieves details of a specific exercise from a category
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of exercise | number | * |
-
-**[ Responses ]**
-
-code: 200
-
-description: Ok
-
-- application/json:
-
-**PUT**
-
-**Description**: Updates an existing exercise of a category
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of exercise | number | * |
-
-**[ Request Body ]** *
-
-- application/json:
-
-    - $schema: ExerciseDto
-
-**Example Value**:
+> 201 Response
 
 ```json
 {
-    "title" : "Calf raises",
-    "difficulty" : "MODERATE",
-    "description" : "Great medium-intensity exercise for improving calf strength.",
-    "duration" : 3
+  "categoryId": 1,
+  "video_url": "string",
+  "reps": 1,
+  "sets": 1,
+  "duration": 1,
+  "description": "string",
+  "difficulty": "LIGHT",
+  "title": "string",
+  "id": 1
 }
 ```
 
-**[ Responses ]**
+<h3 id="createexercise-responses">Responses</h3>
 
-code: 200
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[Exercise](#schemaexercise)|
 
-description: Ok
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-- application/json:
+## GetExercise
 
-**DELETE**
+<a id="opIdGetExercise"></a>
 
-**Description**: Deletes an existing exercise of a category
+`GET /api/categories/{categoryId}/exercises/{exerciseId}`
 
-**[ Parameters ]**
+Retrieves details of a specific exercise from a category
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of exercise | number | * |
+<h3 id="getexercise-parameters">Parameters</h3>
 
-**[ Responses ]**
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise|
 
-code: 204
+> Example responses
 
-description: No content
-
-### /api/categories/{categoryId}/exercises/{exerciseId}/comments
-
-**GET**
-
-**Description**: Retrieves a list of existing comments from an exercise
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of comments's exercise | number | * |
-
-**[ Responses ]**
-
-code: 200
-
-description: Ok
-
-- application/json:
-
-    - type: array ( $schema: Comment )
-
-**POST**
-
-**Description**: Creates a new comment for an exercise
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of comments's exercise | number | * |
-
-**[ Request Body ]** *
-
-- application/json:
-
-    - $schema: CommentDto
-
-**Example Value**:
+> 200 Response
 
 ```json
 {
-    "text" : "This exercise is really good!"
+  "categoryId": 1,
+  "video_url": "string",
+  "reps": 1,
+  "sets": 1,
+  "duration": 1,
+  "description": "string",
+  "difficulty": "LIGHT",
+  "title": "string",
+  "id": 1
 }
 ```
 
-**[ Responses ]**
+<h3 id="getexercise-responses">Responses</h3>
 
-code: 201
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-description: Created
+<h3 id="getexercise-responseschema">Response Schema</h3>
 
-- application/json:
+Status Code **200**
 
-    - $schema: Comment
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» categoryId|number|true|none|none|
+|» video_url|string|true|none|none|
+|» reps|number|true|none|none|
+|» sets|number|true|none|none|
+|» duration|number|true|none|none|
+|» description|string|true|none|none|
+|» difficulty|[Difficulty](#schemadifficulty)|true|none|none|
+|» title|string|true|none|none|
+|» id|number|true|none|none|
 
-### /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}
+#### Enumerated Values
 
-**GET**
+|Property|Value|
+|---|---|
+|difficulty|LIGHT|
+|difficulty|MODERATE|
+|difficulty|HARD|
+|difficulty|EXTREME|
 
-**Description**: Retrieves details of a specific comment from an exercise
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-**[ Parameters ]**
+## UpdateExercise
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of comments's exercise | number | * |
-| commentId | path | The ID of comment | number | * |
+<a id="opIdUpdateExercise"></a>
 
-**[ Responses ]**
+`PUT /api/categories/{categoryId}/exercises/{exerciseId}`
 
-code: 200
+Updates an existing exercise of a category
 
-description: Ok
-
-- application/json:
-
-**PUT**
-
-**Description**: Updates an existing comment of an exercise
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of comments's exercise | number | * |
-| commentId | path | The ID of comment | number | * |
-
-**[ Request Body ]** *
-
-- application/json:
-
-    - $schema: CommentDto
-
-**Example Value**:
+> Body parameter
 
 ```json
 {
-    "text" : "I think that this exercise should be in a different category."
+  "title": "string",
+  "difficulty": "LIGHT",
+  "description": "string",
+  "duration": 1,
+  "sets": 1,
+  "reps": 1,
+  "video_url": "string"
 }
 ```
 
-**[ Responses ]**
+<h3 id="updateexercise-parameters">Parameters</h3>
 
-code: 200
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise|
+|body|body|[ExerciseDto](#schemaexercisedto)|true|Data object describing a new exercise|
 
-description: Ok
+> Example responses
 
-- application/json:
-
-**DELETE**
-
-**Description**: Deletes an existing comment of an exercise
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of exercise's category | number | * |
-| exerciseId | path | The ID of comments's exercise | number | * |
-| commentId | path | The ID of comment | number | * |
-
-**[ Responses ]**
-
-code: 204
-
-description: No content
-
-### /api/categories
-
-**GET**
-
-**Description**: Retrieves a list of existing categories
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-
-**[ Responses ]**
-
-code: 200
-
-description: Ok
-
-- application/json:
-
-    - type: array ( $schema: Category )
-
-**POST**
-
-**Description**: Creates a new category
-
-**[ Parameters ]**
-
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-
-**[ Request Body ]** *
-
-- application/json:
-
-    - $schema: CategoryDto
-
-**Example Value**:
+> 200 Response
 
 ```json
 {
-    "title" : "Lower back",
-    "description" : "Some simple exercises for improving lower back strength",
-    "image_url" : "https://exerciseDB.com/images/lower_back_1.jpg"
+  "categoryId": 1,
+  "video_url": "string",
+  "reps": 1,
+  "sets": 1,
+  "duration": 1,
+  "description": "string",
+  "difficulty": "LIGHT",
+  "title": "string",
+  "id": 1
 }
 ```
 
-**[ Responses ]**
+<h3 id="updateexercise-responses">Responses</h3>
 
-code: 201
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-description: Created
+<h3 id="updateexercise-responseschema">Response Schema</h3>
 
-- application/json:
+Status Code **200**
 
-    - $schema: Category
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» categoryId|number|true|none|none|
+|» video_url|string|true|none|none|
+|» reps|number|true|none|none|
+|» sets|number|true|none|none|
+|» duration|number|true|none|none|
+|» description|string|true|none|none|
+|» difficulty|[Difficulty](#schemadifficulty)|true|none|none|
+|» title|string|true|none|none|
+|» id|number|true|none|none|
 
-### /api/categories/{categoryId}
+#### Enumerated Values
 
-**GET**
+|Property|Value|
+|---|---|
+|difficulty|LIGHT|
+|difficulty|MODERATE|
+|difficulty|HARD|
+|difficulty|EXTREME|
 
-**Description**: Retrieves details of a specific category
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-**[ Parameters ]**
+## DeleteExercise
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of category | number | * |
+<a id="opIdDeleteExercise"></a>
 
-**[ Responses ]**
+`DELETE /api/categories/{categoryId}/exercises/{exerciseId}`
 
-code: 200
+Deletes an existing exercise of a category
 
-description: Ok
+<h3 id="deleteexercise-parameters">Parameters</h3>
 
-- application/json:
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise|
 
-**PUT**
+<h3 id="deleteexercise-responses">Responses</h3>
 
-**Description**: Updates an existing category
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
 
-**[ Parameters ]**
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of category | number | * |
+## GetComments
 
-**[ Request Body ]** *
+<a id="opIdGetComments"></a>
 
-- application/json:
+`GET /api/categories/{categoryId}/exercises/{exerciseId}/comments`
 
-    - $schema: CategoryDto
+Retrieves a list of existing comments from an exercise
 
-**Example Value**:
+<h3 id="getcomments-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise that comment links to|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "exerciseId": 1,
+    "text": "string",
+    "id": 1
+  }
+]
+```
+
+<h3 id="getcomments-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
+
+<h3 id="getcomments-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[Comment](#schemacomment)]|false|none|none|
+|» exerciseId|number|true|none|none|
+|» text|string|true|none|none|
+|» id|number|true|none|none|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## CreateComment
+
+<a id="opIdCreateComment"></a>
+
+`POST /api/categories/{categoryId}/exercises/{exerciseId}/comments`
+
+Creates a new comment for an exercise
+
+> Body parameter
 
 ```json
 {
-    "title" : "Upper back",
-    "description" : "Some simple exercises for improving upper back strength"
+  "text": "string"
 }
 ```
 
-**[ Responses ]**
+<h3 id="createcomment-parameters">Parameters</h3>
 
-code: 200
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise that comment links to|
+|body|body|[CommentDto](#schemacommentdto)|true|Data object describing a new comment|
 
-description: Ok
+> Example responses
 
-- application/json:
+> 201 Response
 
-**DELETE**
+```json
+{
+  "exerciseId": 1,
+  "text": "string",
+  "id": 1
+}
+```
 
-**Description**: Removes an existing category
+<h3 id="createcomment-responses">Responses</h3>
 
-**[ Parameters ]**
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[Comment](#schemacomment)|
 
-| name | in | description | type | required |
-|:-----|:-----:|:-----|:-----:|:-----:|
-| categoryId | path | The ID of category | number | * |
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-**[ Responses ]**
+## GetComment
 
-code: 204
+<a id="opIdGetComment"></a>
 
-description: No content
+`GET /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}`
 
+Retrieves details of a specific comment from an exercise
 
----
-### **Components**
-### Schemas
-**_36_Enums.Difficulty**
+<h3 id="getcomment-parameters">Parameters</h3>
 
-enum: [ LIGHT, MODERATE, HARD, EXTREME ]
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise that comment links to|
+|commentId|path|number|true|ID of a comment|
 
+> Example responses
 
+> 200 Response
 
+```json
+{
+  "exerciseId": 1,
+  "text": "string",
+  "id": 1
+}
+```
 
+<h3 id="getcomment-responses">Responses</h3>
 
-**DefaultSelection_Prisma._36_ExercisePayload_**
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-**categoryId**:
+<h3 id="getcomment-responseschema">Response Schema</h3>
 
-- **number**
+Status Code **200**
 
-    - _format: double_
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» exerciseId|number|true|none|none|
+|» text|string|true|none|none|
+|» id|number|true|none|none|
 
-    - _required: true_
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-    - _nullable: false_
+## UpdateComment
 
-**video_url**:
+<a id="opIdUpdateComment"></a>
 
-- **string**
+`PUT /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}`
 
-    - _required: true_
+Updates an existing comment of an exercise
 
-    - _nullable: false_
+> Body parameter
 
-**reps**:
+```json
+{
+  "text": "string"
+}
+```
 
-- **number**
+<h3 id="updatecomment-parameters">Parameters</h3>
 
-    - _format: double_
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise that comment links to|
+|commentId|path|number|true|ID of a comment|
+|body|body|[CommentDto](#schemacommentdto)|true|Data object describing an updated comment|
 
-    - _required: true_
+> Example responses
 
-    - _nullable: false_
+> 200 Response
 
-**sets**:
+```json
+{
+  "exerciseId": 1,
+  "text": "string",
+  "id": 1
+}
+```
 
-- **number**
+<h3 id="updatecomment-responses">Responses</h3>
 
-    - _format: double_
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-    - _required: true_
+<h3 id="updatecomment-responseschema">Response Schema</h3>
 
-    - _nullable: false_
+Status Code **200**
 
-**duration**:
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» exerciseId|number|true|none|none|
+|» text|string|true|none|none|
+|» id|number|true|none|none|
 
-- **number**
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-    - _format: double_
+## DeleteComment
 
-    - _required: true_
+<a id="opIdDeleteComment"></a>
 
-    - _nullable: false_
+`DELETE /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}`
 
-**description**:
+Deletes an existing comment of an exercise
 
-- **string**
+<h3 id="deletecomment-parameters">Parameters</h3>
 
-    - _required: true_
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category that exercise links to|
+|exerciseId|path|number|true|ID of an exercise that comment links to|
+|commentId|path|number|true|ID of a comment|
 
-    - _nullable: false_
+<h3 id="deletecomment-responses">Responses</h3>
 
-**difficulty**:
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
 
-- **_36_Enums.Difficulty**
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-    - _required: true_
+## GetCategories
 
-    - _nullable: false_
+<a id="opIdGetCategories"></a>
 
-**title**:
+`GET /api/categories`
 
-- **string**
+Retrieves a list of existing categories
 
-    - _required: true_
+> Example responses
 
-    - _nullable: false_
+> 200 Response
 
-**id**:
+```json
+[
+  {
+    "image_url": "string",
+    "description": "string",
+    "title": "string",
+    "id": 1
+  }
+]
+```
 
-- **number**
+<h3 id="getcategories-responses">Responses</h3>
 
-    - _format: double_
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-    - _required: true_
+<h3 id="getcategories-responseschema">Response Schema</h3>
 
-    - _nullable: false_
+Status Code **200**
 
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[Category](#schemacategory)]|false|none|none|
+|» image_url|string|true|none|none|
+|» description|string|true|none|none|
+|» title|string|true|none|none|
+|» id|number|true|none|none|
 
+<aside class="success">
+This operation does not require authentication
+</aside>
 
+## CreateCategory
 
+<a id="opIdCreateCategory"></a>
 
-**Exercise**
+`POST /api/categories`
 
-description: Model Exercise
+Creates a new category
 
+> Body parameter
 
+```json
+{
+  "title": "string",
+  "description": "string",
+  "image_url": "string"
+}
+```
 
+<h3 id="createcategory-parameters">Parameters</h3>
 
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[CategoryDto](#schemacategorydto)|true|Data object describing a new category|
 
-**Difficulty**
+> Example responses
 
+> 201 Response
 
+```json
+{
+  "image_url": "string",
+  "description": "string",
+  "title": "string",
+  "id": 1
+}
+```
 
+<h3 id="createcategory-responses">Responses</h3>
 
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[Category](#schemacategory)|
 
-**ExerciseDto**
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-**title**:
+## GetCategory
 
-- **string**
+<a id="opIdGetCategory"></a>
 
-    - _description: Title of an exercise_
+`GET /api/categories/{categoryId}`
 
-    - _required: true_
+Retrieves details of a specific category
 
-    - _nullable: false_
+<h3 id="getcategory-parameters">Parameters</h3>
 
-**difficulty**:
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category|
 
-- **Difficulty**
+> Example responses
 
-    - _description: Difficulty of an exercise (LIGHT, MODERATE, HARD, EXTREME)_
+> 200 Response
 
-    - _required: true_
+```json
+{
+  "image_url": "string",
+  "description": "string",
+  "title": "string",
+  "id": 1
+}
+```
 
-    - _nullable: false_
+<h3 id="getcategory-responses">Responses</h3>
 
-**description**:
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-- **string**
+<h3 id="getcategory-responseschema">Response Schema</h3>
 
-    - _description: Description for an exercise_
+Status Code **200**
 
-    - _required: true_
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» image_url|string|true|none|none|
+|» description|string|true|none|none|
+|» title|string|true|none|none|
+|» id|number|true|none|none|
 
-    - _nullable: false_
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-**duration**:
+## UpdateCategory
 
-- **number**
+<a id="opIdUpdateCategory"></a>
 
-    - _description: Duration for an exercise (minutes)_
+`PUT /api/categories/{categoryId}`
 
-    - _format: double_
+Updates an existing category
 
-    - _required: true_
+> Body parameter
 
-    - _nullable: false_
+```json
+{
+  "title": "string",
+  "description": "string",
+  "image_url": "string"
+}
+```
 
-**sets**:
+<h3 id="updatecategory-parameters">Parameters</h3>
 
-- **number**
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category|
+|body|body|[CategoryDto](#schemacategorydto)|true|Data object describing an updated category|
 
-    - _description: Number of sets for an exercise_
+> Example responses
 
-    - _format: double_
+> 200 Response
 
-    - _required: false_
+```json
+{
+  "image_url": "string",
+  "description": "string",
+  "title": "string",
+  "id": 1
+}
+```
 
-    - _nullable: false_
+<h3 id="updatecategory-responses">Responses</h3>
 
-**reps**:
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
 
-- **number**
+<h3 id="updatecategory-responseschema">Response Schema</h3>
 
-    - _description: Number of repetitions for an exercise_
+Status Code **200**
 
-    - _format: double_
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» image_url|string|true|none|none|
+|» description|string|true|none|none|
+|» title|string|true|none|none|
+|» id|number|true|none|none|
 
-    - _required: false_
+<aside class="success">
+This operation does not require authentication
+</aside>
 
-    - _nullable: false_
+## DeleteCategory
 
-**video_url**:
+<a id="opIdDeleteCategory"></a>
 
-- **string**
+`DELETE /api/categories/{categoryId}`
 
-    - _description: Video URL for visualizing an exercise_
+Removes an existing category
 
-    - _required: false_
+<h3 id="deletecategory-parameters">Parameters</h3>
 
-    - _nullable: false_
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|categoryId|path|number|true|ID of a category|
 
+<h3 id="deletecategory-responses">Responses</h3>
 
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
 
+<aside class="success">
+This operation does not require authentication
+</aside>
 
+# Schemas
 
-**DefaultSelection_Prisma._36_CommentPayload_**
+<h2 id="tocS__36_Enums.Difficulty">_36_Enums.Difficulty</h2>
+<!-- backwards compatibility -->
+<a id="schema_36_enums.difficulty"></a>
+<a id="schema__36_Enums.Difficulty"></a>
+<a id="tocS_36_enums.difficulty"></a>
+<a id="tocs_36_enums.difficulty"></a>
 
-**exerciseId**:
+```json
+"LIGHT"
 
-- **number**
+```
 
-    - _format: double_
+### Properties
 
-    - _required: true_
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|string|false|none|none|
 
-    - _nullable: false_
+#### Enumerated Values
 
-**text**:
+|Property|Value|
+|---|---|
+|*anonymous*|LIGHT|
+|*anonymous*|MODERATE|
+|*anonymous*|HARD|
+|*anonymous*|EXTREME|
 
-- **string**
+<h2 id="tocS_DefaultSelection_Prisma._36_ExercisePayload_">DefaultSelection_Prisma._36_ExercisePayload_</h2>
+<!-- backwards compatibility -->
+<a id="schemadefaultselection_prisma._36_exercisepayload_"></a>
+<a id="schema_DefaultSelection_Prisma._36_ExercisePayload_"></a>
+<a id="tocSdefaultselection_prisma._36_exercisepayload_"></a>
+<a id="tocsdefaultselection_prisma._36_exercisepayload_"></a>
 
-    - _required: true_
+```json
+{
+  "categoryId": 1,
+  "video_url": "string",
+  "reps": 1,
+  "sets": 1,
+  "duration": 1,
+  "description": "string",
+  "difficulty": "LIGHT",
+  "title": "string",
+  "id": 1
+}
 
-    - _nullable: false_
+```
 
-**id**:
+### Properties
 
-- **number**
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|categoryId|number|true|none|none|
+|video_url|string|true|none|none|
+|reps|number|true|none|none|
+|sets|number|true|none|none|
+|duration|number|true|none|none|
+|description|string|true|none|none|
+|difficulty|[_36_Enums.Difficulty](#schema_36_enums.difficulty)|true|none|none|
+|title|string|true|none|none|
+|id|number|true|none|none|
 
-    - _format: double_
+<h2 id="tocS_Exercise">Exercise</h2>
+<!-- backwards compatibility -->
+<a id="schemaexercise"></a>
+<a id="schema_Exercise"></a>
+<a id="tocSexercise"></a>
+<a id="tocsexercise"></a>
 
-    - _required: true_
+```json
+{
+  "categoryId": 1,
+  "video_url": "string",
+  "reps": 1,
+  "sets": 1,
+  "duration": 1,
+  "description": "string",
+  "difficulty": "LIGHT",
+  "title": "string",
+  "id": 1
+}
 
-    - _nullable: false_
+```
 
+Model Exercise
 
+### Properties
 
+*None*
 
+<h2 id="tocS_Difficulty">Difficulty</h2>
+<!-- backwards compatibility -->
+<a id="schemadifficulty"></a>
+<a id="schema_Difficulty"></a>
+<a id="tocSdifficulty"></a>
+<a id="tocsdifficulty"></a>
 
-**Comment**
+```json
+"LIGHT"
 
-description: Model Comment
+```
 
+### Properties
 
+*None*
 
+<h2 id="tocS_ExerciseDto">ExerciseDto</h2>
+<!-- backwards compatibility -->
+<a id="schemaexercisedto"></a>
+<a id="schema_ExerciseDto"></a>
+<a id="tocSexercisedto"></a>
+<a id="tocsexercisedto"></a>
 
+```json
+{
+  "title": "string",
+  "difficulty": "LIGHT",
+  "description": "string",
+  "duration": 1,
+  "sets": 1,
+  "reps": 1,
+  "video_url": "string"
+}
 
-**CommentDto**
+```
 
-**text**:
+### Properties
 
-- **string**
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|title|string|true|none|Title of an exercise|
+|difficulty|[Difficulty](#schemadifficulty)|true|none|Difficulty of an exercise (LIGHT, MODERATE, HARD, EXTREME)|
+|description|string|true|none|Description for an exercise|
+|duration|number|true|none|Duration for an exercise (minutes)|
+|sets|number|false|none|Number of sets for an exercise|
+|reps|number|false|none|Number of repetitions for an exercise|
+|video_url|string|false|none|Video URL for visualizing an exercise|
 
-    - _description: Comment text_
+<h2 id="tocS_DefaultSelection_Prisma._36_CommentPayload_">DefaultSelection_Prisma._36_CommentPayload_</h2>
+<!-- backwards compatibility -->
+<a id="schemadefaultselection_prisma._36_commentpayload_"></a>
+<a id="schema_DefaultSelection_Prisma._36_CommentPayload_"></a>
+<a id="tocSdefaultselection_prisma._36_commentpayload_"></a>
+<a id="tocsdefaultselection_prisma._36_commentpayload_"></a>
 
-    - _required: true_
+```json
+{
+  "exerciseId": 1,
+  "text": "string",
+  "id": 1
+}
 
-    - _nullable: false_
+```
 
+### Properties
 
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|exerciseId|number|true|none|none|
+|text|string|true|none|none|
+|id|number|true|none|none|
 
+<h2 id="tocS_Comment">Comment</h2>
+<!-- backwards compatibility -->
+<a id="schemacomment"></a>
+<a id="schema_Comment"></a>
+<a id="tocScomment"></a>
+<a id="tocscomment"></a>
 
+```json
+{
+  "exerciseId": 1,
+  "text": "string",
+  "id": 1
+}
 
-**DefaultSelection_Prisma._36_CategoryPayload_**
+```
 
-**image_url**:
+Model Comment
 
-- **string**
+### Properties
 
-    - _required: true_
+*None*
 
-    - _nullable: false_
+<h2 id="tocS_CommentDto">CommentDto</h2>
+<!-- backwards compatibility -->
+<a id="schemacommentdto"></a>
+<a id="schema_CommentDto"></a>
+<a id="tocScommentdto"></a>
+<a id="tocscommentdto"></a>
 
-**description**:
+```json
+{
+  "text": "string"
+}
 
-- **string**
+```
 
-    - _required: true_
+### Properties
 
-    - _nullable: false_
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|text|string|true|none|Comment text|
 
-**title**:
+<h2 id="tocS_DefaultSelection_Prisma._36_CategoryPayload_">DefaultSelection_Prisma._36_CategoryPayload_</h2>
+<!-- backwards compatibility -->
+<a id="schemadefaultselection_prisma._36_categorypayload_"></a>
+<a id="schema_DefaultSelection_Prisma._36_CategoryPayload_"></a>
+<a id="tocSdefaultselection_prisma._36_categorypayload_"></a>
+<a id="tocsdefaultselection_prisma._36_categorypayload_"></a>
 
-- **string**
+```json
+{
+  "image_url": "string",
+  "description": "string",
+  "title": "string",
+  "id": 1
+}
 
-    - _required: true_
+```
 
-    - _nullable: false_
+### Properties
 
-**id**:
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|image_url|string|true|none|none|
+|description|string|true|none|none|
+|title|string|true|none|none|
+|id|number|true|none|none|
 
-- **number**
+<h2 id="tocS_Category">Category</h2>
+<!-- backwards compatibility -->
+<a id="schemacategory"></a>
+<a id="schema_Category"></a>
+<a id="tocScategory"></a>
+<a id="tocscategory"></a>
 
-    - _format: double_
+```json
+{
+  "image_url": "string",
+  "description": "string",
+  "title": "string",
+  "id": 1
+}
 
-    - _required: true_
+```
 
-    - _nullable: false_
+Model Category
 
+### Properties
 
+*None*
 
+<h2 id="tocS_CategoryDto">CategoryDto</h2>
+<!-- backwards compatibility -->
+<a id="schemacategorydto"></a>
+<a id="schema_CategoryDto"></a>
+<a id="tocScategorydto"></a>
+<a id="tocscategorydto"></a>
 
+```json
+{
+  "title": "string",
+  "description": "string",
+  "image_url": "string"
+}
 
-**Category**
+```
 
-description: Model Category
+### Properties
 
-
-
-
-
-**CategoryDto**
-
-**title**:
-
-- **string**
-
-    - _description: Title of a category_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**description**:
-
-- **string**
-
-    - _description: Description for a category_
-
-    - _required: true_
-
-    - _nullable: false_
-
-**image_url**:
-
-- **string**
-
-    - _description: URL for an image visualizing a category_
-
-    - _required: false_
-
-    - _nullable: false_
-
-
-
-
-
-
----
-### Security Schemes
-
----
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|title|string|true|none|Title of a category|
+|description|string|true|none|Description for a category|
+|image_url|string|false|none|URL for an image visualizing a category|
