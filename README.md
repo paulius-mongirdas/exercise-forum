@@ -14,7 +14,7 @@
 kategorija(raumens_pavadinimas, aprašymas, nuotraukos_url) → pratimas(pavadinimas, trukmė, pakartojimai, sunkumas, aprašymas, video_url) → komentaras(tekstas)
 (čia atributai yra ne galutiniai, labiau pateikiami kaip pavyzdys)
 
-**Naudojamos technologijos:** React (front-end) ir Node.js su Express.js (back-end). Autorizacijai Passport.js. Duomenų bazė – PostgreSQL arba MongoDB.
+**Naudojamos technologijos:** React (front-end) ir Node.js su Express.js (back-end). Autorizacijai Passport.js. Duomenų bazė – PostgreSQL su Prisma ORM.
 
 <!-- Generator: Widdershins v4.1 -->
 
@@ -23,8 +23,6 @@ kategorija(raumens_pavadinimas, aprašymas, nuotraukos_url) → pratimas(pavadin
 Base URLs:
 
 * <a href="http://{baseUrl}/">http://{baseUrl}/</a>
-
- License: ISC
 
 # Authentication
 
