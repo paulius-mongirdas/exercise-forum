@@ -20,6 +20,8 @@ export class CommentController extends Controller {
   // GET api/categories/{categoryId}/exercises/{exerciseId}/comments
   /**
    * Retrieves a list of existing comments from an exercise
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise that comment links to
    */
   @Get()
   public async getComments(@Path() categoryId: number, @Path() exerciseId: number): Promise<Comment[]> {
@@ -29,6 +31,9 @@ export class CommentController extends Controller {
   // GET /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}
   /**
    * Retrieves details of a specific comment from an exercise
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise that comment links to
+   * @param commentId ID of a comment
    */
   @Get("{commentId}")
   public async getComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number): Promise<Comment | null> {
@@ -38,6 +43,9 @@ export class CommentController extends Controller {
   // POST /api/categories/{categoryId}/exercises/{exerciseId}/comments
   /**
    * Creates a new comment for an exercise
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise that comment links to
+   * @param comment Data object describing a new comment
    */
   @SuccessResponse("201", "Created")
   @Post()
@@ -48,6 +56,10 @@ export class CommentController extends Controller {
   // PUT /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}
   /**
    * Updates an existing comment of an exercise
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise that comment links to
+   * @param commentId ID of a comment
+   * @param comment Data object describing an updated comment
    */
   @Put("{commentId}")
   public async updateComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number, @Body() comment: CommentDto): Promise<Comment | null> {
@@ -57,6 +69,9 @@ export class CommentController extends Controller {
   // DELETE /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}
   /**
    * Deletes an existing comment of an exercise
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise that comment links to
+   * @param commentId ID of a comment
    */
   @Delete("{commentId}")
   public async deleteComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number): Promise<void> {

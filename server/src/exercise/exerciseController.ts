@@ -20,6 +20,7 @@ export class ExerciseController extends Controller {
   // GET api/categories/{categoryId}/exercises
   /**
    * Retrieves a list of existing exercises from a category
+   * @param categoryId ID of a category that exercise links to
    */
   @Get()
   public async getExercises(@Path() categoryId: number): Promise<Exercise[]> {
@@ -29,6 +30,8 @@ export class ExerciseController extends Controller {
   // GET /api/categories/{categoryId}/exercises/{exerciseId}
   /**
    * Retrieves details of a specific exercise from a category
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise
    */
   @Get("{exerciseId}")
   public async getExercise(@Path() categoryId: number, @Path() exerciseId: number): Promise<Exercise | null> {
@@ -38,6 +41,8 @@ export class ExerciseController extends Controller {
   // POST /api/categories/{categoryId}/exercises
   /**
    * Creates a new exercise for a category
+   * @param categoryId ID of a category that exercise links to
+   * @param exercise Data object describing a new exercise
    */
   @SuccessResponse("201", "Created")
   @Post()
@@ -48,6 +53,9 @@ export class ExerciseController extends Controller {
   // PUT /api/categories/{categoryId}/exercises/{exerciseId}
   /**
    * Updates an existing exercise of a category
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise
+   * @param exercise Data object describing a new exercise
    */
   @Put("{exerciseId}")
   public async updateExercise(@Path() categoryId: number, @Path() exerciseId: number, @Body() exercise: ExerciseDto): Promise<Exercise | null> {
@@ -57,6 +65,8 @@ export class ExerciseController extends Controller {
   // DELETE /api/categories/{categoryId}/exercises/{exerciseId}
   /**
    * Deletes an existing exercise of a category
+   * @param categoryId ID of a category that exercise links to
+   * @param exerciseId ID of an exercise
    */
   @Delete("{exerciseId}")
   public async deleteExercise(@Path() categoryId: number, @Path() exerciseId: number): Promise<void> {

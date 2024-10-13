@@ -29,6 +29,7 @@ export class CategoryController extends Controller {
   // GET /api/categories/{categoryId}
   /**
    * Retrieves details of a specific category
+   * @param categoryId ID of a category
    */
   @Get("{categoryId}")
   public async getCategory(@Path() categoryId: number): Promise<Category | null> {
@@ -38,6 +39,7 @@ export class CategoryController extends Controller {
   // POST /api/categories
   /**
    * Creates a new category
+   * @param category Data object describing a new category
    */
   @SuccessResponse("201", "Created")
   @Post()
@@ -48,6 +50,8 @@ export class CategoryController extends Controller {
   // PUT /api/categories/{categoryId}
   /**
    * Updates an existing category
+   * @param categoryId ID of a category
+   * @param category Data object describing an updated category
    */
   @Put("{categoryId}")
   public async updateCategory(@Path() categoryId: number, @Body() category: CategoryDto): Promise<Category | null> {
@@ -57,6 +61,7 @@ export class CategoryController extends Controller {
   // DELETE /api/categories/{categoryId}
   /**
    * Removes an existing category
+   * @param categoryId ID of a category
    */
   @Delete("{categoryId}")
   public async deleteCategory(@Path() categoryId: number): Promise<void> {

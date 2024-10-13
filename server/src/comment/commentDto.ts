@@ -1,6 +1,6 @@
-import { IsString } from 'class-validator';
-
-export class CommentDto {
-    @IsString()
+export interface CommentDto {
+    /**
+     * Comment text
+     */
     text: string;
 }

@@ -1,12 +1,16 @@
-import { IsString } from 'class-validator';
-
-export class CategoryDto {
-    @IsString()
+export interface CategoryDto {
+    /**
+     * Title of a category
+     */
     title: string;
 
-    @IsString()
+    /**
+     * Description for a category
+     */
     description: string;
 
-    @IsString()
+    /**
+     * URL for an image visualizing a category 
+     */
     image_url?: string;
 }

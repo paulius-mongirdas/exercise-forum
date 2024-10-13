@@ -1,24 +1,32 @@
 import { Difficulty } from '@prisma/client';
-import { IsString, IsNumber } from 'class-validator';
 
-export class ExerciseDto {
-    @IsString()
+export interface ExerciseDto {
+    /**
+     * Title of an exercise
+     */
     title: string;
-
+    /**
+     * Difficulty of an exercise (LIGHT, MODERATE, HARD, EXTREME)
+     */
     difficulty: Difficulty;
-
-    @IsString()
+    /**
+     * Description for an exercise
+     */
     description: string;
-
-    @IsNumber()
+    /**
+     * Duration for an exercise (minutes)
+     */
     duration: number;
-
-    @IsNumber()
+    /**
+     * Number of sets for an exercise
+     */
     sets?: number;
-
-    @IsNumber()
+    /**
+     * Number of repetitions for an exercise
+     */
     reps?: number;
-
-    @IsString()
+    /**
+     * Video URL for visualizing an exercise
+     */
     video_url?: string;
 }
