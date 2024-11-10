@@ -6,9 +6,10 @@ import {
   Post,
   Put,
   Delete,
-  //Query,
   Route,
   SuccessResponse,
+  Security,
+  Request
 } from "tsoa";
 import { Category } from '@prisma/client';
 import { CategoryService } from "./categoryService";
@@ -41,10 +42,11 @@ export class CategoryController extends Controller {
    * Creates a new category
    * @param category Data object describing a new category
    */
+  @Security("jwt", ["admin"])
   @SuccessResponse("201", "Created")
   @Post()
-  public async createCategory(@Body() category: CategoryDto): Promise<Category> {
-    return new CategoryService().createCategory(category);
+  public async createCategory(@Body() category: CategoryDto, @Request() request: any): Promise<Category> {
+    return new CategoryService().createCategory(category, request.userId);
   }
 
   // PUT /api/categories/{categoryId}
@@ -53,6 +55,7 @@ export class CategoryController extends Controller {
    * @param categoryId ID of a category
    * @param category Data object describing an updated category
    */
+  @Security("jwt", ["admin"])
   @Put("{categoryId}")
   public async updateCategory(@Path() categoryId: number, @Body() category: CategoryDto): Promise<Category | null> {
     return new CategoryService().updateCategory(categoryId, category);
@@ -63,6 +66,7 @@ export class CategoryController extends Controller {
    * Removes an existing category
    * @param categoryId ID of a category
    */
+  @Security("jwt", ["admin"])
   @Delete("{categoryId}")
   public async deleteCategory(@Path() categoryId: number): Promise<void> {
     return new CategoryService().deleteCategory(categoryId);

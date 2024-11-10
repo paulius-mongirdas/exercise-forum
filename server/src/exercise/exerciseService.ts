@@ -1,7 +1,7 @@
 import { Exercise } from '@prisma/client';
 import { prisma } from '../../prisma/prisma'; // Importing the shared Prisma instance
 import { ExerciseDto } from './exerciseDto';
-import { NotFoundError } from '../errors';
+import { ForbiddenError, NotFoundError } from '../errors';
 
 export class ExerciseService {
 
@@ -27,7 +27,10 @@ export class ExerciseService {
         }
 
         const exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
@@ -36,7 +39,7 @@ export class ExerciseService {
         return exercise
     }
 
-    public async createExercise(categoryId: number, exerciseData: ExerciseDto): Promise<Exercise> {
+    public async createExercise(categoryId: number, exerciseData: ExerciseDto, userId: string): Promise<Exercise> {
         const category = await prisma.category.findUnique({
             where: { id: categoryId }
         });
@@ -53,12 +56,13 @@ export class ExerciseService {
                 sets: exerciseData.sets,
                 reps: exerciseData.reps,
                 video_url: exerciseData.video_url,
-                categoryId: categoryId
+                categoryId: categoryId,
+                userId: userId
             }
         });
     }
 
-    public async updateExercise(categoryId: number, exerciseId: number, exerciseData: ExerciseDto): Promise<Exercise | null> {
+    public async updateExercise(categoryId: number, exerciseId: number, exerciseData: ExerciseDto, userId: string, userRole: string): Promise<Exercise | null> {
         const category = await prisma.category.findUnique({
             where: { id: categoryId }
         });
@@ -67,10 +71,17 @@ export class ExerciseService {
         }
 
         const _exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!_exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
+        }
+
+        if (userRole !== "admin" && _exercise.userId !== userId) {
+            throw new ForbiddenError("You are not authorized to update this comment");
         }
 
         return await prisma.exercise.update({
@@ -82,7 +93,7 @@ export class ExerciseService {
         });
     }
 
-    public async deleteExercise(categoryId: number, exerciseId: number): Promise<void> {
+    public async deleteExercise(categoryId: number, exerciseId: number, userId: string, userRole: string): Promise<void> {
         const category = await prisma.category.findUnique({
             where: { id: categoryId }
         });
@@ -91,12 +102,19 @@ export class ExerciseService {
         }
 
         const _exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!_exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
         }
-        
+
+        if (userRole !== "admin" && _exercise.userId !== userId) {
+            throw new ForbiddenError("You are not authorized to update this comment");
+        }
+
         await prisma.exercise.delete({
             where: {
                 id: exerciseId,

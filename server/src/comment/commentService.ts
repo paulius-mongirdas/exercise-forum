@@ -1,7 +1,7 @@
 import { Comment } from '@prisma/client';
 import { prisma } from '../../prisma/prisma'; // Importing the shared Prisma instance
 import { CommentDto } from './commentDto';
-import { NotFoundError } from '../errors';
+import { ForbiddenError, NotFoundError } from '../errors';
 export class CommentService {
 
     public async getComments(categoryId: number, exerciseId: number): Promise<Comment[]> {
@@ -13,7 +13,10 @@ export class CommentService {
         }
 
         const exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
@@ -33,14 +36,20 @@ export class CommentService {
         }
 
         const exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
         }
 
         const comment = await prisma.comment.findUnique({
-            where: { id: commentId }
+            where: {
+                id: commentId,
+                exerciseId: exerciseId
+            }
         });
         if (!comment) {
             throw new NotFoundError(`Comment with id ${commentId} not found`);
@@ -49,7 +58,7 @@ export class CommentService {
         return comment
     }
 
-    public async createComment(categoryId: number, exerciseId: number, comment: CommentDto): Promise<Comment> {
+    public async createComment(categoryId: number, exerciseId: number, comment: CommentDto,  userId: string): Promise<Comment> {
         const category = await prisma.category.findUnique({
             where: { id: categoryId }
         });
@@ -58,7 +67,10 @@ export class CommentService {
         }
 
         const exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
@@ -67,12 +79,13 @@ export class CommentService {
         return await prisma.comment.create({
             data: {
                 text: comment.text,
-                exerciseId: exerciseId
+                exerciseId: exerciseId,
+                userId: userId
             }
         });
     }
 
-    public async updateComment(categoryId: number, exerciseId: number, commentId: number, commentData: CommentDto): Promise<Comment | null> {
+    public async updateComment(categoryId: number, exerciseId: number, commentId: number, commentData: CommentDto, userId: string, userRole: string): Promise<Comment | null> {
         const category = await prisma.category.findUnique({
             where: { id: categoryId }
         });
@@ -81,29 +94,40 @@ export class CommentService {
         }
 
         const exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
         }
 
         const comment = await prisma.comment.findUnique({
-            where: { id: commentId }
+            where: {
+                id: commentId,
+                exerciseId: exerciseId
+            }
         });
         if (!comment) {
             throw new NotFoundError(`Comment with id ${commentId} not found`);
+        }
+
+        console.log("COMMENT:", comment.userId, userId)
+        if (userRole !== "admin" && comment.userId !== userId) {
+            throw new ForbiddenError("You are not authorized to update this comment");
         }
 
         return await prisma.comment.update({
             where: {
                 id: commentId,
-                exerciseId: exerciseId
+                exerciseId: exerciseId,
             },
             data: commentData,
         });
     }
 
-    public async deleteComment(categoryId: number, exerciseId: number, commentId: number): Promise<void> {
+    public async deleteComment(categoryId: number, exerciseId: number, commentId: number, userId: string, userRole: string): Promise<void> {
         const category = await prisma.category.findUnique({
             where: { id: categoryId }
         });
@@ -112,17 +136,27 @@ export class CommentService {
         }
 
         const exercise = await prisma.exercise.findUnique({
-            where: { id: exerciseId }
+            where: {
+                id: exerciseId,
+                categoryId: categoryId
+            }
         });
         if (!exercise) {
             throw new NotFoundError(`Exercise with id ${exerciseId} not found`);
         }
 
         const comment = await prisma.comment.findUnique({
-            where: { id: commentId }
+            where: {
+                id: commentId,
+                exerciseId: exerciseId
+            }
         });
         if (!comment) {
             throw new NotFoundError(`Comment with id ${commentId} not found`);
+        }
+
+        if (userRole !== "admin" && comment.userId !== userId) {
+            throw new ForbiddenError("You are not authorized to update this comment");
         }
 
         await prisma.comment.delete({

@@ -6,9 +6,10 @@ import {
   Post,
   Put,
   Delete,
-  //Query,
   Route,
-  SuccessResponse
+  SuccessResponse,
+  Security,
+  Request
 } from "tsoa";
 import { Comment } from '@prisma/client';
 import { CommentService } from "./commentService";
@@ -48,9 +49,10 @@ export class CommentController extends Controller {
    * @param comment Data object describing a new comment
    */
   @SuccessResponse("201", "Created")
+  @Security("jwt", ["admin", "user"])
   @Post()
-  public async createComment(@Path() categoryId: number, @Path() exerciseId: number, @Body() comment: CommentDto): Promise<Comment> {
-    return new CommentService().createComment(categoryId, exerciseId, comment);
+  public async createComment(@Path() categoryId: number, @Path() exerciseId: number, @Body() comment: CommentDto, @Request() request: any): Promise<Comment> {
+    return new CommentService().createComment(categoryId, exerciseId, comment, request.userId);
   }
 
   // PUT /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}
@@ -61,9 +63,10 @@ export class CommentController extends Controller {
    * @param commentId ID of a comment
    * @param comment Data object describing an updated comment
    */
+  @Security("jwt", ["admin", "user"])
   @Put("{commentId}")
-  public async updateComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number, @Body() comment: CommentDto): Promise<Comment | null> {
-    return new CommentService().updateComment(categoryId, exerciseId, commentId, comment);
+  public async updateComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number, @Body() comment: CommentDto, @Request() request: any): Promise<Comment | null> {
+    return new CommentService().updateComment(categoryId, exerciseId, commentId, comment, request.userId, request.userRole);
   }
 
   // DELETE /api/categories/{categoryId}/exercises/{exerciseId}/comments/{commentId}
@@ -73,8 +76,9 @@ export class CommentController extends Controller {
    * @param exerciseId ID of an exercise that comment links to
    * @param commentId ID of a comment
    */
+  @Security("jwt", ["admin", "user"])
   @Delete("{commentId}")
-  public async deleteComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number): Promise<void> {
-    return new CommentService().deleteComment(categoryId, exerciseId, commentId);
+  public async deleteComment(@Path() categoryId: number, @Path() exerciseId: number, @Path() commentId: number, @Request() request: any): Promise<void> {
+    return new CommentService().deleteComment(categoryId, exerciseId, commentId, request.userId, request.userRole);
   }
 }

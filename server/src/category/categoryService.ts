@@ -20,9 +20,13 @@ export class CategoryService {
         return category
     }
 
-    public async createCategory(category: CategoryDto): Promise<Category> {
+    public async createCategory(category: CategoryDto, userId: string): Promise<Category> {
         return await prisma.category.create({
-            data: category,
+            data: {
+                name: category.name,
+                description: category.description,
+                userId: userId
+            }
         });
     }
 

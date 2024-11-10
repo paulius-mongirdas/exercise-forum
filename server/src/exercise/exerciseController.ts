@@ -6,9 +6,10 @@ import {
   Post,
   Put,
   Delete,
-  //Query,
+  Request,
   Route,
-  SuccessResponse
+  SuccessResponse,
+  Security
 } from "tsoa";
 import { Exercise } from '@prisma/client';
 import { ExerciseService } from "./exerciseService";
@@ -45,9 +46,10 @@ export class ExerciseController extends Controller {
    * @param exercise Data object describing a new exercise
    */
   @SuccessResponse("201", "Created")
+  @Security("jwt", ["admin", "user"])
   @Post()
-  public async createExercise(@Path() categoryId: number, @Body() exercise: ExerciseDto): Promise<Exercise> {
-    return new ExerciseService().createExercise(categoryId, exercise);
+  public async createExercise(@Path() categoryId: number, @Body() exercise: ExerciseDto, @Request() request: any): Promise<Exercise> {
+    return new ExerciseService().createExercise(categoryId, exercise, request.userId);
   }
 
   // PUT /api/categories/{categoryId}/exercises/{exerciseId}
@@ -57,9 +59,10 @@ export class ExerciseController extends Controller {
    * @param exerciseId ID of an exercise
    * @param exercise Data object describing a new exercise
    */
+  @Security("jwt", ["admin", "user"])
   @Put("{exerciseId}")
-  public async updateExercise(@Path() categoryId: number, @Path() exerciseId: number, @Body() exercise: ExerciseDto): Promise<Exercise | null> {
-    return new ExerciseService().updateExercise(categoryId, exerciseId, exercise);
+  public async updateExercise(@Path() categoryId: number, @Path() exerciseId: number, @Body() exercise: ExerciseDto, @Request() request: any): Promise<Exercise | null> {
+    return new ExerciseService().updateExercise(categoryId, exerciseId, exercise, request.userId, request.userRole);
   }
 
   // DELETE /api/categories/{categoryId}/exercises/{exerciseId}
@@ -68,8 +71,9 @@ export class ExerciseController extends Controller {
    * @param categoryId ID of a category that exercise links to
    * @param exerciseId ID of an exercise
    */
+  @Security("jwt", ["admin", "user"])
   @Delete("{exerciseId}")
-  public async deleteExercise(@Path() categoryId: number, @Path() exerciseId: number): Promise<void> {
-    return new ExerciseService().deleteExercise(categoryId, exerciseId);
+  public async deleteExercise(@Path() categoryId: number, @Path() exerciseId: number, @Request() request: any): Promise<void> {
+    return new ExerciseService().deleteExercise(categoryId, exerciseId, request.userId, request.userRole);
   }
 }
