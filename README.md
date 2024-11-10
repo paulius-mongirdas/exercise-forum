@@ -18,15 +18,62 @@ kategorija(raumens_pavadinimas, aprašymas, nuotraukos_url) → pratimas(pavadin
 
 <!-- Generator: Widdershins v4.1 -->
 
-<h1 id="server">Exercise API v1.0.0</h1>
+<h1 id="server">server v1.0.0</h1>
+
+> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
 Base URLs:
 
 * <a href="http://{baseUrl}/">http://{baseUrl}/</a>
 
+ License: ISC
+
 # Authentication
 
+- HTTP Authentication, scheme: bearer 
+
 <h1 id="server-default">Default</h1>
+
+## GetUserByUUID
+
+<a id="opIdGetUserByUUID"></a>
+
+`GET /api/users/{uuid}`
+
+Get a user
+
+<h3 id="getuserbyuuid-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|uuid|path|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "roleId": 1,
+  "updatedAt": "2019-08-24T14:15:22Z",
+  "createdAt": "2019-08-24T14:15:22Z",
+  "password": "string",
+  "email": "string",
+  "uuid": "string",
+  "id": 1,
+  "name": "string"
+}
+```
+
+<h3 id="getuserbyuuid-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|[User](#schemauser)|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
 
 ## GetExercises
 
@@ -50,6 +97,7 @@ Retrieves a list of existing exercises from a category
 [
   {
     "categoryId": 1,
+    "userId": "string",
     "video_url": "string",
     "reps": 1,
     "sets": 1,
@@ -76,6 +124,7 @@ Status Code **200**
 |---|---|---|---|---|
 |*anonymous*|[[Exercise](#schemaexercise)]|false|none|none|
 |» categoryId|number|true|none|none|
+|» userId|string|true|none|none|
 |» video_url|string|true|none|none|
 |» reps|number|true|none|none|
 |» sets|number|true|none|none|
@@ -134,6 +183,7 @@ Creates a new exercise for a category
 ```json
 {
   "categoryId": 1,
+  "userId": "string",
   "video_url": "string",
   "reps": 1,
   "sets": 1,
@@ -151,8 +201,9 @@ Creates a new exercise for a category
 |---|---|---|---|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[Exercise](#schemaexercise)|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
 </aside>
 
 ## GetExercise
@@ -177,6 +228,7 @@ Retrieves details of a specific exercise from a category
 ```json
 {
   "categoryId": 1,
+  "userId": "string",
   "video_url": "string",
   "reps": 1,
   "sets": 1,
@@ -201,6 +253,7 @@ Status Code **200**
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» categoryId|number|true|none|none|
+|» userId|string|true|none|none|
 |» video_url|string|true|none|none|
 |» reps|number|true|none|none|
 |» sets|number|true|none|none|
@@ -260,6 +313,7 @@ Updates an existing exercise of a category
 ```json
 {
   "categoryId": 1,
+  "userId": "string",
   "video_url": "string",
   "reps": 1,
   "sets": 1,
@@ -284,6 +338,7 @@ Status Code **200**
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» categoryId|number|true|none|none|
+|» userId|string|true|none|none|
 |» video_url|string|true|none|none|
 |» reps|number|true|none|none|
 |» sets|number|true|none|none|
@@ -302,8 +357,9 @@ Status Code **200**
 |difficulty|HARD|
 |difficulty|EXTREME|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
 </aside>
 
 ## DeleteExercise
@@ -327,8 +383,9 @@ Deletes an existing exercise of a category
 |---|---|---|---|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
 </aside>
 
 ## GetComments
@@ -355,6 +412,7 @@ Retrieves a list of existing comments from an exercise
   {
     "exerciseId": 1,
     "text": "string",
+    "userId": "string",
     "id": 1
   }
 ]
@@ -375,6 +433,7 @@ Status Code **200**
 |*anonymous*|[[Comment](#schemacomment)]|false|none|none|
 |» exerciseId|number|true|none|none|
 |» text|string|true|none|none|
+|» userId|string|true|none|none|
 |» id|number|true|none|none|
 
 <aside class="success">
@@ -413,6 +472,7 @@ Creates a new comment for an exercise
 {
   "exerciseId": 1,
   "text": "string",
+  "userId": "string",
   "id": 1
 }
 ```
@@ -423,8 +483,9 @@ Creates a new comment for an exercise
 |---|---|---|---|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[Comment](#schemacomment)|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
 </aside>
 
 ## GetComment
@@ -451,6 +512,7 @@ Retrieves details of a specific comment from an exercise
 {
   "exerciseId": 1,
   "text": "string",
+  "userId": "string",
   "id": 1
 }
 ```
@@ -469,6 +531,7 @@ Status Code **200**
 |---|---|---|---|---|
 |» exerciseId|number|true|none|none|
 |» text|string|true|none|none|
+|» userId|string|true|none|none|
 |» id|number|true|none|none|
 
 <aside class="success">
@@ -508,6 +571,7 @@ Updates an existing comment of an exercise
 {
   "exerciseId": 1,
   "text": "string",
+  "userId": "string",
   "id": 1
 }
 ```
@@ -526,10 +590,12 @@ Status Code **200**
 |---|---|---|---|---|
 |» exerciseId|number|true|none|none|
 |» text|string|true|none|none|
+|» userId|string|true|none|none|
 |» id|number|true|none|none|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
 </aside>
 
 ## DeleteComment
@@ -554,8 +620,9 @@ Deletes an existing comment of an exercise
 |---|---|---|---|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
 </aside>
 
 ## GetCategories
@@ -574,6 +641,7 @@ Retrieves a list of existing categories
 [
   {
     "image_url": "string",
+    "userId": "string",
     "description": "string",
     "title": "string",
     "id": 1
@@ -595,6 +663,7 @@ Status Code **200**
 |---|---|---|---|---|
 |*anonymous*|[[Category](#schemacategory)]|false|none|none|
 |» image_url|string|true|none|none|
+|» userId|string|true|none|none|
 |» description|string|true|none|none|
 |» title|string|true|none|none|
 |» id|number|true|none|none|
@@ -634,6 +703,7 @@ Creates a new category
 ```json
 {
   "image_url": "string",
+  "userId": "string",
   "description": "string",
   "title": "string",
   "id": 1
@@ -646,8 +716,9 @@ Creates a new category
 |---|---|---|---|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[Category](#schemacategory)|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin )
 </aside>
 
 ## GetCategory
@@ -671,6 +742,7 @@ Retrieves details of a specific category
 ```json
 {
   "image_url": "string",
+  "userId": "string",
   "description": "string",
   "title": "string",
   "id": 1
@@ -690,6 +762,7 @@ Status Code **200**
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» image_url|string|true|none|none|
+|» userId|string|true|none|none|
 |» description|string|true|none|none|
 |» title|string|true|none|none|
 |» id|number|true|none|none|
@@ -730,6 +803,7 @@ Updates an existing category
 ```json
 {
   "image_url": "string",
+  "userId": "string",
   "description": "string",
   "title": "string",
   "id": 1
@@ -749,12 +823,14 @@ Status Code **200**
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» image_url|string|true|none|none|
+|» userId|string|true|none|none|
 |» description|string|true|none|none|
 |» title|string|true|none|none|
 |» id|number|true|none|none|
 
-<aside class="success">
-This operation does not require authentication
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin )
 </aside>
 
 ## DeleteCategory
@@ -777,11 +853,167 @@ Removes an existing category
 |---|---|---|---|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
 
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin )
+</aside>
+
+## Register
+
+<a id="opIdRegister"></a>
+
+`POST /api/register`
+
+Register a user
+
+> Body parameter
+
+```json
+{
+  "name": "string",
+  "email": "string",
+  "password": "string"
+}
+```
+
+<h3 id="register-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[RegisterDto](#schemaregisterdto)|true|Data object describing a new user|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "roleId": 1,
+  "updatedAt": "2019-08-24T14:15:22Z",
+  "createdAt": "2019-08-24T14:15:22Z",
+  "password": "string",
+  "email": "string",
+  "uuid": "string",
+  "id": 1,
+  "name": "string"
+}
+```
+
+<h3 id="register-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|[User](#schemauser)|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Login
+
+<a id="opIdLogin"></a>
+
+`POST /api/login`
+
+Log in a user
+
+> Body parameter
+
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+<h3 id="login-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[LoginDto](#schemalogindto)|true|Data object describing a user|
+
+> Example responses
+
+> 200 Response
+
+```json
+{}
+```
+
+<h3 id="login-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
+
+<h3 id="login-responseschema">Response Schema</h3>
+
 <aside class="success">
 This operation does not require authentication
 </aside>
 
 # Schemas
+
+<h2 id="tocS_DefaultSelection_Prisma._36_UserPayload_">DefaultSelection_Prisma._36_UserPayload_</h2>
+<!-- backwards compatibility -->
+<a id="schemadefaultselection_prisma._36_userpayload_"></a>
+<a id="schema_DefaultSelection_Prisma._36_UserPayload_"></a>
+<a id="tocSdefaultselection_prisma._36_userpayload_"></a>
+<a id="tocsdefaultselection_prisma._36_userpayload_"></a>
+
+```json
+{
+  "roleId": 1,
+  "updatedAt": "2019-08-24T14:15:22Z",
+  "createdAt": "2019-08-24T14:15:22Z",
+  "password": "string",
+  "email": "string",
+  "uuid": "string",
+  "id": 1,
+  "name": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|roleId|number|true|none|none|
+|updatedAt|string(date-time)|true|none|none|
+|createdAt|string(date-time)|true|none|none|
+|password|string|true|none|none|
+|email|string|true|none|none|
+|uuid|string|true|none|none|
+|id|number|true|none|none|
+|name|string|true|none|none|
+
+<h2 id="tocS_User">User</h2>
+<!-- backwards compatibility -->
+<a id="schemauser"></a>
+<a id="schema_User"></a>
+<a id="tocSuser"></a>
+<a id="tocsuser"></a>
+
+```json
+{
+  "roleId": 1,
+  "updatedAt": "2019-08-24T14:15:22Z",
+  "createdAt": "2019-08-24T14:15:22Z",
+  "password": "string",
+  "email": "string",
+  "uuid": "string",
+  "id": 1,
+  "name": "string"
+}
+
+```
+
+Model User
+
+### Properties
+
+*None*
 
 <h2 id="tocS__36_Enums.Difficulty">_36_Enums.Difficulty</h2>
 <!-- backwards compatibility -->
@@ -820,6 +1052,7 @@ This operation does not require authentication
 ```json
 {
   "categoryId": 1,
+  "userId": "string",
   "video_url": "string",
   "reps": 1,
   "sets": 1,
@@ -837,6 +1070,7 @@ This operation does not require authentication
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |categoryId|number|true|none|none|
+|userId|string|true|none|none|
 |video_url|string|true|none|none|
 |reps|number|true|none|none|
 |sets|number|true|none|none|
@@ -856,6 +1090,7 @@ This operation does not require authentication
 ```json
 {
   "categoryId": 1,
+  "userId": "string",
   "video_url": "string",
   "reps": 1,
   "sets": 1,
@@ -933,6 +1168,7 @@ Model Exercise
 {
   "exerciseId": 1,
   "text": "string",
+  "userId": "string",
   "id": 1
 }
 
@@ -944,6 +1180,7 @@ Model Exercise
 |---|---|---|---|---|
 |exerciseId|number|true|none|none|
 |text|string|true|none|none|
+|userId|string|true|none|none|
 |id|number|true|none|none|
 
 <h2 id="tocS_Comment">Comment</h2>
@@ -957,6 +1194,7 @@ Model Exercise
 {
   "exerciseId": 1,
   "text": "string",
+  "userId": "string",
   "id": 1
 }
 
@@ -998,6 +1236,7 @@ Model Comment
 ```json
 {
   "image_url": "string",
+  "userId": "string",
   "description": "string",
   "title": "string",
   "id": 1
@@ -1010,6 +1249,7 @@ Model Comment
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |image_url|string|true|none|none|
+|userId|string|true|none|none|
 |description|string|true|none|none|
 |title|string|true|none|none|
 |id|number|true|none|none|
@@ -1024,6 +1264,7 @@ Model Comment
 ```json
 {
   "image_url": "string",
+  "userId": "string",
   "description": "string",
   "title": "string",
   "id": 1
@@ -1054,6 +1295,60 @@ Model Category
 ```
 
 ### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|title|string|true|none|Title of a category|
+|description|string|true|none|Description for a category|
+|image_url|string|false|none|URL for an image visualizing a category|
+
+<h2 id="tocS_RegisterDto">RegisterDto</h2>
+<!-- backwards compatibility -->
+<a id="schemaregisterdto"></a>
+<a id="schema_RegisterDto"></a>
+<a id="tocSregisterdto"></a>
+<a id="tocsregisterdto"></a>
+
+```json
+{
+  "name": "string",
+  "email": "string",
+  "password": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|name|string|true|none|Username of a user|
+|email|string|true|none|Email of a user|
+|password|string|true|none|Password of a user|
+
+<h2 id="tocS_LoginDto">LoginDto</h2>
+<!-- backwards compatibility -->
+<a id="schemalogindto"></a>
+<a id="schema_LoginDto"></a>
+<a id="tocSlogindto"></a>
+<a id="tocslogindto"></a>
+
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|email|string|true|none|Email of a user|
+|password|string|true|none|Password of a user|
+
+
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
