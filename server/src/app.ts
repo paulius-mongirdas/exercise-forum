@@ -28,7 +28,7 @@ app.use(function errorHandler(
   res: ExResponse,
   next: NextFunction
 ): ExResponse | void {
-  
+
   if (err instanceof SyntaxError) {
     return res.status(400).json({
       response: "Bad Request (400)",
@@ -75,6 +75,13 @@ app.use(function errorHandler(
 app.use((req : ExRequest, res : ExResponse, next : NextFunction) => {
   const method = req.method.toUpperCase();
   //const idInUrl = req.params?.id !== undefined;
+
+  if (method === 'GET') {
+    return res.status(405).json({
+      response: "Method Not Allowed (405)",
+      details: `Cannot GET ${req.path}`,
+    });
+  }
 
   if (method === 'POST') {
     return res.status(405).json({
