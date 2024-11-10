@@ -17,7 +17,7 @@ app.use(
     extended: true,
   })
 );
-app.use(json());
+app.use(express.json()); // For parsing application/json
 app.use(cors({ origin: "http://localhost:3000" })); // TODO : change to production URL later
 
 RegisterRoutes(app);
@@ -28,11 +28,7 @@ app.use(function errorHandler(
   res: ExResponse,
   next: NextFunction
 ): ExResponse | void {
-
-  // TODO : check if id already exists (return 405)
-  // posting, patching is not allowed when id is specified in URL
-  // deleting is not allowed without id in URL
-
+  
   if (err instanceof SyntaxError) {
     return res.status(400).json({
       response: "Bad Request (400)",
@@ -53,7 +49,7 @@ app.use(function errorHandler(
   }
   if (err instanceof NotFoundError) {
     return res.status(404).json({
-      response: "Not found (404)",
+      response: "Not Found (404)",
       details: err.message,
     });
   }
@@ -67,7 +63,44 @@ app.use(function errorHandler(
   if (err instanceof Error) {
     return res.status(500).json({
       response: "Internal Server Error (500)",
-      details: err.message,
+      //details: err.message,
+    });
+  }
+
+  // Pass to next middleware if no matching error handler
+  next();
+});
+
+// If no other error was matched, it means a 405 error (probably)
+app.use((req : ExRequest, res : ExResponse, next : NextFunction) => {
+  const method = req.method.toUpperCase();
+  //const idInUrl = req.params?.id !== undefined;
+
+  if (method === 'POST') {
+    return res.status(405).json({
+      response: "Method Not Allowed (405)",
+      details: `Cannot POST ${req.path}`,
+    });
+  }
+
+  if (method === 'PATCH') {
+    return res.status(405).json({
+      response: "Method Not Allowed (405)",
+      details: `Cannot PATCH ${req.path}`,
+    });
+  }
+
+  if (method === 'PUT') {
+    return res.status(405).json({
+      response: "Method Not Allowed (405)",
+      details: `Cannot PUT ${req.path}`,
+    });
+  }
+
+  if (method === 'DELETE') {
+    return res.status(405).json({
+      response: "Method Not Allowed (405)",
+      details: `Cannot DELETE ${req.path}`,
     });
   }
 
