@@ -22,7 +22,8 @@ model User {
   Category Category[]
   Exercise Exercise[]
   Comment  Comment[]
-
+  refreshTokens RefreshToken[]
+  
   @@map("users")
 }
 
@@ -79,6 +80,14 @@ model Comment {
   exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 
   @@map("comments")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [uuid])
+  userId    String
+  createdAt DateTime @default(now())
 }
 
 enum Difficulty {

@@ -15,7 +15,7 @@ export const generateJWT = async (userId: any, role: string): Promise<any> => {
     jwt.sign(
       payload,
       process.env.JWT_TOKEN_SECRET || '',
-      { expiresIn: '4h' },
+      { expiresIn: '1m' },
       (err: any, token: any) => {
         if (err) {
           return reject(new Error("Error while generating token"));
@@ -25,3 +25,28 @@ export const generateJWT = async (userId: any, role: string): Promise<any> => {
     );
   });
 };
+/**
+ * Generate Refresh JWT
+ * @param {any} userId
+ * @returns {Promise<any>}
+ */
+export const generateRefreshJWT = async (userId: any, role: string): Promise<any> => {
+  return new Promise<any>((resolve, reject) => {
+    const payload = { 
+      userId,
+      scopes: [role]
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_REFRESH_TOKEN_SECRET || '',
+      { expiresIn: '7d' },
+      (err: any, token: any) => {
+        if (err) {
+          return reject(new Error("Error while generating refresh token"));
+        }
+        resolve(token);
+      }
+    );
+  });
+}

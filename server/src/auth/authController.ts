@@ -24,4 +24,13 @@ export class AuthController extends Controller {
     public async login(@Body() user: LoginDto): Promise<{}> {
         return new AuthService().login(user);
     }
+
+    // POST /api/refresh
+    /**
+     * Refresh a user's token
+     */
+    @Post("refresh")
+    public async refresh(): Promise<{}> {
+        return new AuthService().refresh();
+    }
 }

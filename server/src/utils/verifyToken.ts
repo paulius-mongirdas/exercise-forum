@@ -23,3 +23,15 @@ export const verifyTokenWithScopes = (token: string, scopes?: string[]): Promise
         });
     });
 };
+
+export const verifyRefreshToken = (token: string): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err: any, decoded: any) => {
+            if (err) {
+                return reject(new ForbiddenError("JWT verification failed: " + err.message));
+            }
+            console.log("Decoded refresh token: ", decoded);
+            resolve(decoded);
+        });
+    });
+}
