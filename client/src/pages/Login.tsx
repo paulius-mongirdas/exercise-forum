@@ -28,6 +28,7 @@ const Login = () => {
                 },
             });
             console.log('Response:', response);
+            localStorage.setItem('token', response.data.token);
             navigate("/api/home");
         }
         catch (error) {

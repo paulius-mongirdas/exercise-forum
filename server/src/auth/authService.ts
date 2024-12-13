@@ -24,15 +24,6 @@ export class AuthService {
         });
     }
     public async login(user: LoginDto) {
-        if (typeof global.localStorage === "undefined" || global.localStorage === null) {
-            console.log("Creating local storage");
-            global.localStorage = new LocalStorage('./scratch');
-        }
-        else {
-            console.log("Local storage already exists");
-        }
-        let localStorage = global.localStorage;
-
         const foundUser = await prisma.user.findUnique({ where: { email: user.email } });
         if (!foundUser || !bcryptjs.compareSync(user.password, foundUser.password)) {
             throw new SyntaxError('Invalid credentials');  // TODO : return 401 instead
@@ -69,15 +60,6 @@ export class AuthService {
     }
 
     public async refresh() {
-        if (typeof global.localStorage === "undefined" || global.localStorage === null) {
-            console.log("Creating local storage");
-            global.localStorage = new LocalStorage('./scratch');
-        }
-        else {
-            console.log("Local storage already exists");
-        }
-        let localStorage = global.localStorage;
-
         const localToken = store.get('refreshToken');
 
         if (!localToken) {
@@ -120,6 +102,28 @@ export class AuthService {
         return {
             ok: 1,
             token: `Bearer ${accessToken}`,
+        }
+    }
+
+    public async logout() {
+        const localToken = store.get('refreshToken');
+
+        if (!localToken) {
+            throw new UnauthorizedError('Unauthorized');
+        }
+
+        store.remove('refreshToken');
+
+        const dbToken = await prisma.refreshToken.findUnique({ where: { token: localToken } });
+
+        if (!dbToken) {
+            throw new UnauthorizedError('Unauthorized');
+        }
+
+        await prisma.refreshToken.delete({ where: { token: localToken } });
+
+        return {
+            ok: 1,
         }
     }
 }

@@ -40,6 +40,7 @@ const Register = () => {
                 },
             });
             console.log('Response:', response);
+            localStorage.setItem('token', response.data.token);
             navigate("/api/login");
         }
         catch (error) {

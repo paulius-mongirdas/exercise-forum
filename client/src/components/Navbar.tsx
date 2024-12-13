@@ -18,7 +18,7 @@ const Nav: React.FC<{}> = () => {
                 <Navbar.Collapse className="justify-content-end">
                     <Navi>
                         <Navi.Link href="/api/login">Log in</Navi.Link>
-                        <Navi.Link href="/">Log out</Navi.Link>
+                        <Navi.Link href="/api/logout">Log out</Navi.Link>
                     </Navi>
                 </Navbar.Collapse>
             </Container>

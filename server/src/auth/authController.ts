@@ -33,4 +33,13 @@ export class AuthController extends Controller {
     public async refresh(): Promise<{}> {
         return new AuthService().refresh();
     }
+
+    // POST /api/logout
+    /**
+     * Log out a user
+     */
+    @Post("logout")
+    public async logout(): Promise<{}> {
+        return new AuthService().logout();
+    }
 }

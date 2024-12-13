@@ -29,6 +29,10 @@ const UseNav = () => {
       case "/api/home":
         // Render the <Home /> component
         break;
+      case "/api/logout":
+        localStorage.removeItem("token");
+        navigate("/api/login");
+        break;
       default:
         // Render the <Nav /> component in all other cases
         break;
