@@ -5,6 +5,11 @@ export const verifyTokenWithScopes = (token: string, scopes?: string[]): Promise
     return new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_TOKEN_SECRET, (err: any, decoded: any) => {
             if (err) {
+                // check if the error is due to token expiration
+                if (err.name === "TokenExpiredError") {
+                    // attempt to refresh the token
+                    //refresh();
+                }
                 return reject(new ForbiddenError("JWT verification failed: " + err.message));
             }
 

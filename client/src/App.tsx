@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./pages/Home";
+import Exercises from "./pages/Exercises";
+import Exercise from "./components/Exercise";
 
 const UseNav = () => {
   const location = useLocation();
@@ -48,8 +50,31 @@ function App() {
         <Route path="/api/login" element={<Login />} />
         <Route path="/api/register" element={<Register />} />
         <Route path="/api/home" element={<Home />} />
+        <Route path="/api/categories/:id/exercises" element={<ExerciseListWrapper />} />
+        <Route path="/api/categories/:id/exercises/:exerciseId" element={<ExerciseWrapper />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
+const ExerciseListWrapper = () => {
+  const { id } = useParams<{ id?: string }>();
+
+  if (!id) {
+    return <div>No category ID provided</div>;
+  }
+
+  return <Exercises categoryID={Number(id)} />;
+};
+
+const ExerciseWrapper = () => {
+  const { id, exerciseId } = useParams<{ id?: string, exerciseId?: string }>();
+
+  if (!id || !exerciseId) {
+    return <div>No category ID or exercise ID provided</div>;
+  }
+
+  return <Exercise categoryId={Number(id)} id={Number(exerciseId)} />;
+}
+  
 export default App;
