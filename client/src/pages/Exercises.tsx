@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Navbar";
 import axios from "axios";
-import ExerciseListItem from "../components/ExerciseListItem";
+import ExerciseListItem from "../components/Exercise/ExerciseListItem";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 interface Exercises {
     categoryID: number;
 }
 
 const Exercises: React.FC<Exercises> = ({categoryID}) => {
+    const navigate = useNavigate();
+    
     const [exercises, setExercises] = useState<ExerciseListItem[]>([]);
     const [category, setCategory] = useState<string>('');
 
@@ -38,6 +42,7 @@ const Exercises: React.FC<Exercises> = ({categoryID}) => {
 return (
     <>
         <Nav />
+        <Button onClick={() => navigate(-1)}>Back</Button>
         <div className="home-container">
         <h1>Exercises for {category}</h1>
         <table className="table table-bordered table-responsive">

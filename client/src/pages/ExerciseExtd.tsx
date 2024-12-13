@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Nav from "./Navbar";
-import Comment from "./Comment";
+import Nav from "../components/Navbar";
+import Comment from "../components/Comment/CommentListItem";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 interface ExerciseWrapper {
     id: number;
@@ -22,6 +24,8 @@ interface Exercise {
 }
 
 const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
+    const navigate = useNavigate();
+
     const [exercise, setExercise] = useState<Exercise>({
         id: 0,
         userId: '',
@@ -59,6 +63,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
     return (
         <>
             <Nav />
+            <Button onClick={() => navigate(-1)}>Back</Button>
             <div className="home-container">
                 <h1>{exercise.title}</h1>
                 <p>{exercise.description}</p>

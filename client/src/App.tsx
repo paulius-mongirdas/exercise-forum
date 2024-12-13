@@ -7,7 +7,7 @@ import Register from "./pages/Register";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./pages/Home";
 import Exercises from "./pages/Exercises";
-import Exercise from "./components/Exercise";
+import Exercise from "./pages/ExerciseExtd";
 
 const UseNav = () => {
   const location = useLocation();

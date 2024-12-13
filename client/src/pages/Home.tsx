@@ -3,7 +3,7 @@ import Nav from "../components/Navbar";
 import axios from "axios";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import { useState } from "react";
-import Category from "../components/Category";
+import Category from "../components/Category/CategoryListItem";
 import "./home.css";
 
 const Home = () => {
