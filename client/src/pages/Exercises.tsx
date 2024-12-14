@@ -81,7 +81,7 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
                     {user && (
                         <Button onClick={() => setShowCreateExercise(true)}>Create Exercise</Button>)}
                 </div>
-                <Row className="g-4">
+                <Row className="g-2">
                     {[...exercises].reverse().map((exercise, index) => (
                         <Col key={index} xs={12} sm={12} md={6} lg={4}>
                             <Card className="card-box h-100">
@@ -111,12 +111,12 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
                                         <>
                                             <Button onClick={() => {
                                                 setSelectedExercise(exercise);
-                                                setShowDeleteExercise(true);
-                                            }}>Delete</Button>
-                                            <Button onClick={() => {
-                                                setSelectedExercise(exercise);
                                                 setShowEditExercise(true);
                                             }}>Edit</Button>
+                                            <Button onClick={() => {
+                                                setSelectedExercise(exercise);
+                                                setShowDeleteExercise(true);
+                                            }}>Delete</Button>
                                         </>)}
                                 </Card.Footer>
                             </Card>

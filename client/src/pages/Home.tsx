@@ -93,21 +93,21 @@ const Home = () => {
                                         <>
                                             <Button onClick={() => {
                                                 setSelectedCategory(category);
-                                                setShowDeleteCategory(true);
-                                            }}>Delete</Button>
-                                            <Button onClick={() => {
-                                                setSelectedCategory(category);
                                                 setShowEditCategory(true);
                                             }}>Edit</Button>
+                                            <Button onClick={() => {
+                                                setSelectedCategory(category);
+                                                setShowDeleteCategory(true);
+                                            }}>Delete</Button>
                                         </>
                                     )}
                                 </Card.Footer>
                             </Card>
-                            </Col>
+                        </Col>
 
                     ))}
                 </Row>
-            
+
             </div>
             {showDeleteCategory && selectedCategory && (
                 <DeleteCategoryModal isVisible={showDeleteCategory}

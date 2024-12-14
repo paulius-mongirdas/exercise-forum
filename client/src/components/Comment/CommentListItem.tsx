@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 interface Comment {
-    id: number;
     userId: string;
-    exerciseId: number;
-    text: string;
 }
 
 interface User {
@@ -14,7 +11,7 @@ interface User {
     name: string;
 }
 
-const Comment: React.FC<Comment> = ({userId, exerciseId, id, text}) => {
+const Comment: React.FC<Comment> = ({userId}) => {
 
     const [user, setUser] = useState<User>({
         id: 0,
@@ -28,12 +25,7 @@ const Comment: React.FC<Comment> = ({userId, exerciseId, id, text}) => {
     }, []);
 
     return (
-        <div className="card" style={{ width: 600 }}>
-          <div className="card-body">
-            <h5 className="card-title"><strong>{user.name}</strong> </h5>
-            <p className="card-text">{text}</p>
-          </div>    
-        </div>
+            <p>{user.name}</p>
       );
 }
 export default Comment;
