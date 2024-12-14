@@ -10,6 +10,7 @@ export const verifyTokenWithScopes = (token: string, scopes?: string[]): Promise
                 if (err.name === "TokenExpiredError") {
                     console.log("Token expired, refreshing token...");
                     return reject(new ForbiddenError("TokenExpiredError"));
+                    // TODO : add automatic token refresh for all requests
                     /*axios.post("http://localhost:8000/api/refresh", {
                         token: token
                     }).then((response) => {

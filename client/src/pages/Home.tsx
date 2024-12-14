@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Nav from "../components/Navbar";
 import axios from "axios";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Card, CardGroup, Col, Container, ListGroup, Row, Table } from "react-bootstrap";
 import { useState } from "react";
 import Category from "../components/Category/CategoryListItem";
 import "./home.css";
@@ -75,41 +75,39 @@ const Home = () => {
                             onClose={() => setShowCreateCategory(false)} />
                     )}
                 </div>
-                <table className="table table-bordered table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            {user && user.roleId > 1 && <th>Actions</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {[...categories].reverse().map((category, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td><Link to={"/api/categories/" + category.id + "/exercises"}>{category.title}</Link></td>
-                                    <td>{category.description}</td>
+                <Row className="g-2">
+                    {[...categories].reverse().map((category, index) => (
+                        <Col key={index} xs={12} sm={12} md={6} lg={4}>
+                            <Card key={index} className="card-box h-100">
+                                <Card.Body>
+                                    <Card.Title>{category.title}</Card.Title>
+                                    <Card.Text>
+                                        {category.description}
+                                    </Card.Text>
+                                </Card.Body>
+                                <Card.Footer className="container-row">
+                                    <Link to={"/api/categories/" + category.id + "/exercises"}>
+                                        <Button variant="primary">View exercises</Button>
+                                    </Link>
                                     {user && user.roleId > 1 && (
-                                        <td>
-                                            <div className="container-row" >
-                                                <Button variant="danger" onClick={() => {
-                                                    setShowDeleteCategory(true)
-                                                    setSelectedCategory(category)
-                                                }
-                                                }>Delete</Button>
-                                                <Button variant="warning" onClick={() => {
-                                                    setShowEditCategory(true)
-                                                    setSelectedCategory(category)
-                                                }
-                                                }>Edit</Button>
-                                            </div>
-                                        </td>
+                                        <>
+                                            <Button onClick={() => {
+                                                setSelectedCategory(category);
+                                                setShowDeleteCategory(true);
+                                            }}>Delete</Button>
+                                            <Button onClick={() => {
+                                                setSelectedCategory(category);
+                                                setShowEditCategory(true);
+                                            }}>Edit</Button>
+                                        </>
                                     )}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                </Card.Footer>
+                            </Card>
+                            </Col>
+
+                    ))}
+                </Row>
+            
             </div>
             {showDeleteCategory && selectedCategory && (
                 <DeleteCategoryModal isVisible={showDeleteCategory}

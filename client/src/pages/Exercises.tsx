@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import Nav from "../components/Navbar";
 import axios from "axios";
 import ExerciseListItem from "../components/Exercise/ExerciseListItem";
-import { Button } from "react-bootstrap";
+import { Button, Card, CardGroup, Col, ListGroup, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Exercise from "./ExerciseExtd";
+import CreateExerciseModal from "../components/Exercise/CreateExercise";
+import DeleteExerciseModal from "../components/Exercise/DeleteExercise";
+import EditExerciseModal from "../components/Exercise/EditExercise";
 
 interface Exercises {
     categoryID: number;
@@ -73,49 +76,70 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
             <Nav />
             <Button onClick={() => navigate(-1)}>Back</Button>
             <div className="container-box">
-                <h1>Exercises for {category}</h1>
-                <table className="table table-bordered table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Difficulty</th>
-                            <th>Duration</th>
-                            <th>Sets</th>
-                            <th>Reps</th>
-                            <th>Video</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {[...exercises].reverse().map((exercise, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td><Link to={"/api/categories/" + exercise.categoryId + "/exercises/" + exercise.id}>{exercise.title}</Link></td>
-                                    <td>{exercise.difficulty}</td>
-                                    <td>{exercise.duration} minutes</td>
-                                    <td>{exercise.sets}</td>
-                                    <td>{exercise.reps}</td>
-                                    <td>{exercise.video_url !== null ? "video is provided" : "no video provided"} </td>
+                <div className="container-row">
+                    <h3>Exercises for {category}</h3>
+                    {user && (
+                        <Button onClick={() => setShowCreateExercise(true)}>Create Exercise</Button>)}
+                </div>
+                <Row className="g-4">
+                    {[...exercises].reverse().map((exercise, index) => (
+                        <Col key={index} xs={12} sm={12} md={6} lg={4}>
+                            <Card className="card-box h-100">
+                                <Card.Body>
+                                    <Card.Title>{exercise.title}</Card.Title>
+                                    <Card.Text>{exercise.description}</Card.Text>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item>
+                                            <b>Difficulty:</b> {exercise.difficulty}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <b>Sets:</b> {exercise.sets}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <b>Reps:</b> {exercise.reps}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <b>Duration:</b> {exercise.duration}
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card.Body>
+                                <Card.Footer className="container-row">
+                                    <Link to={`/api/categories/${exercise.categoryId}/exercises/${exercise.id}`}>
+                                        <Button variant="primary">View</Button>
+                                    </Link>
                                     {user && (user.roleId > 1 || user.uuid === exercise.userId) && (
-                                        <td>
-                                            <div className="container-row" >
-                                                <Button onClick={() => {
-                                                    setSelectedExercise(exercise);
-                                                    setShowEditExercise(true);
-                                                }}>Edit</Button>
-                                                <Button onClick={() => {
-                                                    setSelectedExercise(exercise);
-                                                    setShowDeleteExercise(true);
-                                                }}>Delete</Button>
-                                            </div>
-                                        </td>
-                                    )}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                        <>
+                                            <Button onClick={() => {
+                                                setSelectedExercise(exercise);
+                                                setShowDeleteExercise(true);
+                                            }}>Delete</Button>
+                                            <Button onClick={() => {
+                                                setSelectedExercise(exercise);
+                                                setShowEditExercise(true);
+                                            }}>Edit</Button>
+                                        </>)}
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
             </div>
+            {showCreateExercise && (
+                <CreateExerciseModal isVisible={showCreateExercise}
+                    onClose={() => setShowCreateExercise(false)} categoryId={categoryID} />
+            )}
+            {showDeleteExercise && selectedExercise && (
+                <DeleteExerciseModal isVisible={showDeleteExercise}
+                    onClose={() => setShowDeleteExercise(false)}
+                    categoryId={selectedExercise.categoryId}
+                    exerciseId={selectedExercise.id}
+                    exerciseTitle={selectedExercise.title} />
+            )}
+            {showEditExercise && selectedExercise && (
+                <EditExerciseModal isVisible={showEditExercise}
+                    onClose={() => setShowEditExercise(false)}
+                    exercise={selectedExercise} />
+            )}
         </>
     );
 }
