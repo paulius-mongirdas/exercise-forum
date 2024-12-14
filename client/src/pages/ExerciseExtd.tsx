@@ -64,7 +64,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
         <>
             <Nav />
             <Button onClick={() => navigate(-1)}>Back</Button>
-            <div className="home-container">
+            <div className="container-box">
                 <h1>{exercise.title}</h1>
                 <p>{exercise.description}</p>
                 <p><b>Difficulty:</b> {exercise.difficulty}</p>

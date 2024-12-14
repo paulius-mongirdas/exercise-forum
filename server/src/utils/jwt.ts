@@ -15,7 +15,7 @@ export const generateJWT = async (userId: any, role: string): Promise<any> => {
     jwt.sign(
       payload,
       process.env.JWT_TOKEN_SECRET || '',
-      { expiresIn: '1m' },
+      { expiresIn: '1h' },
       (err: any, token: any) => {
         if (err) {
           return reject(new Error("Error while generating token"));

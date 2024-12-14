@@ -30,7 +30,8 @@ const UseNav = () => {
         // Render the <Home /> component
         break;
       case "/api/logout":
-        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         navigate("/api/login");
         break;
       default:
