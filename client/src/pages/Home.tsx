@@ -17,7 +17,7 @@ const Home = () => {
     const [user, setUser] = useState<User | null>(null);
     const [welcomeMessage, setWelcomeMessage] = useState<string>('');
 
-    const accessToken = localStorage.getItem('token');
+    const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
         if (accessToken !== null) {
@@ -28,7 +28,10 @@ const Home = () => {
             }).then((response) => {
                 setUser(response.data);
                 setWelcomeMessage(`Welcome, ${response.data.name}`);
-            })  
+            }).catch((error) => {
+                // check if error is jwt expired
+                console.log('Error:', error);
+        });
         }
         else {
             setWelcomeMessage('Hello, guest user!');

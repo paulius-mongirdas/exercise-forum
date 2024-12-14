@@ -1,8 +1,9 @@
-import { Body, Controller, Post, Route } from "tsoa";
+import { Body, Controller, Post, Route, Request } from "tsoa";
 import { User } from "@prisma/client";
 import { AuthService } from "./authService";
 import { RegisterDto } from "./registerDto";
 import { LoginDto } from "./loginDto";
+import { TokenDto } from "./tokenDto";
 
 @Route("api")
 export class AuthController extends Controller {
@@ -28,10 +29,11 @@ export class AuthController extends Controller {
     // POST /api/refresh
     /**
      * Refresh a user's token
+     * @param refreshToken A refresh token
      */
     @Post("refresh")
-    public async refresh(): Promise<{}> {
-        return new AuthService().refresh();
+    public async refresh(@Body() refreshToken: TokenDto): Promise<{}> {
+        return new AuthService().refresh(refreshToken.token);
     }
 
     // POST /api/logout

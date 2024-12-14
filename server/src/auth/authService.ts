@@ -6,7 +6,6 @@ import { verifyRefreshToken } from '../utils/verifyToken';
 import { LoginDto } from './loginDto';
 import { RegisterDto } from './registerDto';
 import bcryptjs from 'bcryptjs';
-import { LocalStorage } from 'node-localstorage';
 import store from 'store';
 
 export class AuthService {
@@ -29,7 +28,7 @@ export class AuthService {
             throw new SyntaxError('Invalid credentials');  // TODO : return 401 instead
         }
 
-        if (store.get('refreshToken')) {
+        /*if (store.get('refreshToken')) {
             const checkRefreshToken = await prisma.refreshToken.findUnique({ where: { token: store.get('refreshToken') } });
 
             if (!checkRefreshToken || checkRefreshToken.userId !== foundUser.uuid) {
@@ -39,14 +38,14 @@ export class AuthService {
                 await prisma.refreshToken.delete({where : { token: store.get('refreshToken') } });
             }
 
-            store.remove('refreshToken');
-        }
+            //store.remove('refreshToken');
+        }*/
 
         const userRole = await prisma.role.findUnique({ where: { id: foundUser.roleId }, select: { name: true } });
-        const token = await generateJWT(foundUser.uuid, userRole.name);
+        const accessToken = await generateJWT(foundUser.uuid, userRole.name);
 
         const refreshToken = await generateRefreshJWT(foundUser.uuid, userRole.name);
-        store.set('refreshToken', refreshToken);
+
         await prisma.refreshToken.create({
             data: {
                 token: refreshToken,
@@ -55,18 +54,17 @@ export class AuthService {
         });
         return {
             ok: 1,
-            token: `Bearer ${token}`,
+            accessToken: `Bearer ${accessToken}`,
+            refreshToken: `Bearer ${refreshToken}`,
         };
     }
 
-    public async refresh() {
-        const localToken = store.get('refreshToken');
+    public async refresh(refreshToken: string) {
+        const localToken = refreshToken.split(' ')[1];
 
         if (!localToken) {
-                throw new UnauthorizedError('Unauthorized');
+            throw new UnauthorizedError('Unauthorized');
         }
-        
-        store.remove('refreshToken');
 
         const dbToken = await prisma.refreshToken.findUnique({ where: { token: localToken } });
 
@@ -97,11 +95,10 @@ export class AuthService {
             },
         });
 
-        store.set('refreshToken', newRefreshToken);
-
         return {
             ok: 1,
-            token: `Bearer ${accessToken}`,
+            accessToken: `Bearer ${accessToken}`,
+            refreshToken: `Bearer ${newRefreshToken}`,
         }
     }
 

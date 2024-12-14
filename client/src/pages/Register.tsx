@@ -5,16 +5,6 @@ import axios from 'axios';
 import React from "react";
 import "./login.css";
 
-type Props = {};
-
-type State = {
-    username: string,
-    email: string,
-    password: string,
-    successful: boolean,
-    message: string
-};
-
 const Register = () => {
     const navigate = useNavigate();
 
@@ -40,7 +30,6 @@ const Register = () => {
                 },
             });
             console.log('Response:', response);
-            localStorage.setItem('token', response.data.token);
             navigate("/api/login");
         }
         catch (error) {

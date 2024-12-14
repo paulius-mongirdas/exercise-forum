@@ -40,7 +40,7 @@ export const generateRefreshJWT = async (userId: any, role: string): Promise<any
     jwt.sign(
       payload,
       process.env.JWT_REFRESH_TOKEN_SECRET || '',
-      { expiresIn: '7d' },
+      { expiresIn: '3d' },
       (err: any, token: any) => {
         if (err) {
           return reject(new Error("Error while generating refresh token"));
