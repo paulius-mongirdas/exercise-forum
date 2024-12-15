@@ -11,16 +11,17 @@
 4. Administratorius gali peržiūrėti/kurti/redaguoti/naikinti visas kategorijas, pratimus bei komentarus.
 
 **Hierarchinis ryšys:**
-kategorija(raumens_pavadinimas, aprašymas, nuotraukos_url) → pratimas(pavadinimas, trukmė, pakartojimai, sunkumas, aprašymas, video_url) → komentaras(tekstas)
-(čia atributai yra ne galutiniai, labiau pateikiami kaip pavyzdys)
+kategorija(raumens_pavadinimas, aprašymas) → pratimas(pavadinimas, trukmė, pakartojimai, sunkumas, aprašymas, video_url) → komentaras(tekstas)
 
-**Naudojamos technologijos:** React (front-end) ir Node.js su Express.js (back-end). Autorizacijai Passport.js. Duomenų bazė – PostgreSQL su Prisma ORM.
+**Naudojamos technologijos:** React (front-end) ir Express.js (back-end). Autorizacijai jwt. Duomenų bazė – PostgreSQL su Prisma ORM.
 
 <!-- Generator: Widdershins v4.1 -->
 
-<h1 id="server">server v1.0.0</h1>
+<h1 id="server">Sistemos architektūra</h1>
 
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
+![image](https://github.com/user-attachments/assets/af486179-73ed-4d07-a47f-fef66b1b2738)
+
+<h1>API</h1>
 
 Base URLs:
 
@@ -33,6 +34,42 @@ Base URLs:
 - HTTP Authentication, scheme: bearer 
 
 <h1 id="server-default">Default</h1>
+
+## GetCurrentUser
+
+<a id="opIdGetCurrentUser"></a>
+
+`GET /api/users/me`
+
+Get the current user
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "roleId": 1,
+  "updatedAt": "2019-08-24T14:15:22Z",
+  "createdAt": "2019-08-24T14:15:22Z",
+  "password": "string",
+  "email": "string",
+  "uuid": "string",
+  "id": 1,
+  "name": "string"
+}
+```
+
+<h3 id="getcurrentuser-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|[User](#schemauser)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
+</aside>
 
 ## GetUserByUUID
 
@@ -952,6 +989,76 @@ Log in a user
 This operation does not require authentication
 </aside>
 
+## Refresh
+
+<a id="opIdRefresh"></a>
+
+`POST /api/refresh`
+
+Refresh a user's token
+
+> Body parameter
+
+```json
+{
+  "token": "string"
+}
+```
+
+<h3 id="refresh-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[TokenDto](#schematokendto)|true|A refresh token|
+
+> Example responses
+
+> 200 Response
+
+```json
+{}
+```
+
+<h3 id="refresh-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
+
+<h3 id="refresh-responseschema">Response Schema</h3>
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Logout
+
+<a id="opIdLogout"></a>
+
+`POST /api/logout`
+
+Log out a user
+
+> Example responses
+
+> 200 Response
+
+```json
+{}
+```
+
+<h3 id="logout-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
+
+<h3 id="logout-responseschema">Response Schema</h3>
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 # Schemas
 
 <h2 id="tocS_DefaultSelection_Prisma._36_UserPayload_">DefaultSelection_Prisma._36_UserPayload_</h2>
@@ -1348,6 +1455,25 @@ Model Category
 |email|string|true|none|Email of a user|
 |password|string|true|none|Password of a user|
 
+<h2 id="tocS_TokenDto">TokenDto</h2>
+<!-- backwards compatibility -->
+<a id="schematokendto"></a>
+<a id="schema_TokenDto"></a>
+<a id="tocStokendto"></a>
+<a id="tocstokendto"></a>
+
+```json
+{
+  "token": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|token|string|true|none|JWT token|
 
 
 |Name|Type|Required|Restrictions|Description|
@@ -1355,3 +1481,6 @@ Model Category
 |title|string|true|none|Title of a category|
 |description|string|true|none|Description for a category|
 |image_url|string|false|none|URL for an image visualizing a category|
+
+<h1>Išvados</h1>
+Panaudotos technologijos yra populiarios ir plačiai naudojamos, todėl darbo procesas buvo pakankamai nesunkus. Tiek React, tiek Express.js palaiko daug įvairių NPM bibliotekų, kurios palengvino įvairių funkcionalumų bei reikalavimų įgyvendinimą (kaip YouTube vaizdo įrašų integracija ar API dokumentacijos generavimas). Serverinės dalies patalpinimas į debesis taip pat buvo sklandus, kadangi buvo galima pasinaudoti nemokamai suteiktais studento kreditais.
