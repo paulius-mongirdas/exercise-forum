@@ -10,12 +10,20 @@ import DeleteCategoryModal from "../components/Category/DeleteCategory";
 import { set } from "store";
 import { Link } from "react-router-dom";
 import EditCategoryModal from "../components/Category/EditCategory";
+import { toast } from "react-toastify";
 
 interface User {
     id: number;
     name: string;
     roleId: number;
 }
+
+const showToastMessage = (message: string) => {
+    toast.success(message, {
+        position: "top-right",
+        autoClose: 3000,
+    });
+};
 
 const Home = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -27,6 +35,15 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
     const accessToken = localStorage.getItem('accessToken');
+
+    // Success messages
+    useEffect(() => {
+        if (localStorage.getItem("Status") && document.readyState === 'complete') {
+            const message = localStorage.getItem("Status") || "";
+            showToastMessage(message);
+            localStorage.removeItem("Status");
+        }
+    });
 
     useEffect(() => {
         if (accessToken !== null) {

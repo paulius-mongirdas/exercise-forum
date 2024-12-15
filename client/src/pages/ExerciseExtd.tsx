@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import CreateCommentModal from "../components/Comment/CreateComment";
 import DeleteCommentModal from "../components/Comment/DeleteComment";
 import EditCommentModal from "../components/Comment/EditComment";
+import YouTube from "react-youtube";
+import YouTubeVideoId from "youtube-video-id";
+import "./home.css";
 
 interface ExerciseWrapper {
     id: number;
@@ -39,6 +42,12 @@ interface User {
     roleId: number;
 }
 
+function getId(url: string) {
+    let regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+    const match = regex.exec(url);
+    return match ? match[3] : '';
+}
+
 const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
@@ -61,6 +70,17 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
         video_url: ''
     });
 
+    const youtubeRegEx = new RegExp(/^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))((\w|-){11})(?:\S+)?$/);
+    const opts = {
+        // responsive height and width
+        width: "100%",
+        height: "400",
+        playerVars: {
+            // https://developers.google.com/youtube/player_parameters
+            autoplay: 0,
+        },
+    };
+
     const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
@@ -79,24 +99,33 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/categories/' + categoryId + '/exercises/' + id).then((response) => {
-            const exercise = response.data;
-            setExercise(exercise);
-        })
+        try {
+            axios.get('http://localhost:8000/api/categories/' + categoryId + '/exercises/' + id).then((response) => {
+                const exercise = response.data;
+                setExercise(exercise);
+                console.log('video id:', getId(exercise.video_url));
+            })
+        } catch (error) {
+            console.error('Error fetching exercise:', error);
+        }
     }, []);
 
     const [comments, setComments] = useState<Comment[]>([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/categories/' + categoryId + '/exercises/' + id + '/comments').then((response) => {
-            const comments = response.data.map((comment: Comment) => ({
-                id: comment.id,
-                userId: comment.userId,
-                exerciseId: comment.exerciseId,
-                text: comment.text
-            }));
-            setComments(comments);
-        });
+        try {
+            axios.get('http://localhost:8000/api/categories/' + categoryId + '/exercises/' + id + '/comments').then((response) => {
+                const comments = response.data.map((comment: Comment) => ({
+                    id: comment.id,
+                    userId: comment.userId,
+                    exerciseId: comment.exerciseId,
+                    text: comment.text
+                }));
+                setComments(comments);
+            });
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
     }, []);
 
     return (
@@ -107,10 +136,21 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
                 <h1>{exercise.title}</h1>
                 <p>{exercise.description}</p>
                 <p><b>Difficulty:</b> {exercise.difficulty}</p>
-                <p><b>Duration:</b> {exercise.duration}</p>
-                <p><b>Sets:</b> {exercise.sets}</p>
-                <p><b>Reps:</b> {exercise.reps}</p>
-                <p><b>Video:</b> {exercise.video_url}</p>
+                <p><b>Duration:</b> {exercise.duration} minutes</p>
+                {exercise.sets > 0 && (
+                    <p><b>Sets:</b> {exercise.sets}</p>
+                )}
+                {exercise.reps > 0 && (
+                    <p><b>Reps:</b> {exercise.reps}</p>
+                )}
+                {youtubeRegEx.test(exercise.video_url) && (
+                    <>
+                        <p><b>Video:</b></p>
+                        <div className="video-container">
+                            <YouTube videoId={getId(exercise.video_url)} opts={opts} />
+                        </div>
+                    </>
+                )}
                 <br />
                 <div className="container-row">
                     <h3>Comments</h3>
@@ -150,8 +190,8 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
             {showCreateComment && (
                 <CreateCommentModal isVisible={showCreateComment}
                     onClose={() => setShowCreateComment(false)}
-                    categoryId={categoryId
-                    } exerciseId={id} />
+                    categoryId={categoryId}
+                    exerciseId={id} />
             )}
             {showDeleteComment && selectedComment && (
                 <DeleteCommentModal isVisible={showDeleteComment}
@@ -162,7 +202,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
             )}
             {showEditComment && selectedComment && (
                 <EditCommentModal isVisible={showEditComment} onClose={() => setShowEditComment(false)}
-                 categoryId={categoryId} comment={selectedComment} />
+                    categoryId={categoryId} comment={selectedComment} />
             )}
         </>
     )

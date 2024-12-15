@@ -13,8 +13,11 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.6",
+    "react-youtube": "^10.1.0",
     "store": "^2.0.12",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "youtube-video-id": "^1.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

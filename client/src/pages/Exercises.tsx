@@ -92,14 +92,18 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
                                         <ListGroup.Item>
                                             <b>Difficulty:</b> {exercise.difficulty}
                                         </ListGroup.Item>
+                                        {exercise.sets > 0 && (
+                                            <ListGroup.Item>
+                                                <b>Sets:</b> {exercise.sets}
+                                            </ListGroup.Item>
+                                        )}
+                                        {exercise.reps > 0 && (
+                                            <ListGroup.Item>
+                                                <b>Reps:</b> {exercise.reps}
+                                            </ListGroup.Item>
+                                        )}
                                         <ListGroup.Item>
-                                            <b>Sets:</b> {exercise.sets}
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <b>Reps:</b> {exercise.reps}
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
-                                            <b>Duration:</b> {exercise.duration}
+                                            <b>Duration:</b> {exercise.duration} minutes
                                         </ListGroup.Item>
                                     </ListGroup>
                                 </Card.Body>

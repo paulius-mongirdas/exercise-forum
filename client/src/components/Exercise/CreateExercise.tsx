@@ -19,12 +19,17 @@ const CreateExerciseModal: React.FC<CreateExerciseModalProps> = ({ isVisible, on
         duration: 0,
         video_url: '',
     });
+    const [hasSets, setHasSets] = useState(false);
+    const [hasReps, setHasReps] = useState(false);
 
     const youtubeRegEx = new RegExp(/^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))((\w|-){11})(?:\S+)?$/);
+    const [validated, setValidated] = useState(false);
+    const [error, setError] = useState('');
 
     const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setError(''); // Clear the error when user types
     };
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,21 +37,36 @@ const CreateExerciseModal: React.FC<CreateExerciseModalProps> = ({ isVisible, on
         setFormData({ ...formData, [name]: value });
     }
 
-    const validateYoutubeUrl = () => {
-        return youtubeRegEx.test(formData.video_url);
-    }
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        if (name === "hasSets") {
+            setHasSets(checked);
+            if (!checked) setFormData((prev) => ({ ...prev, sets: 0 })); // Clear field when unchecked
+        } else if (name === "hasReps") {
+            setHasReps(checked);
+            if (!checked) setFormData((prev) => ({ ...prev, reps: 0 })); // Clear field when unchecked
+        }
+    };
 
     const handleExerciseSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Form Data:', formData);
-        if (formData.video_url !== "" && !validateYoutubeUrl()) {
-            // TODO : use toast to show error message
-            console.log('Invalid YouTube URL');
+        if (formData.video_url && !youtubeRegEx.test(formData.video_url)) {
+            setError('Please provide a valid YouTube URL.');
+            setValidated(false);
         }
         else {
+            setError('');
+            setValidated(true);
             try {
                 const response = await axios.post(`http://localhost:8000/api/categories/${categoryId}/exercises`, {
-                    ...formData,
+                    title: formData.title,
+                    difficulty: formData.difficulty,
+                    description: formData.description,
+                    sets: formData.sets,
+                    reps: formData.reps,
+                    duration: formData.duration,
+                    video_url: formData.video_url
                 }, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -98,26 +118,44 @@ const CreateExerciseModal: React.FC<CreateExerciseModalProps> = ({ isVisible, on
                         <Form.Control required as="textarea" rows={3} name="description" placeholder="Enter exercise description" value={formData.description} onChange={handleTextChange} />
                     </Form.Group>
                     <br />
+                    <Form.Group controlId="duration">
+                        <Form.Label><b>Duration (minutes)</b></Form.Label>
+                        <Form.Control required type="number" pattern="[0-9]*" min={1} inputMode="numeric" name="duration" value={formData.duration} onChange={handleTextChange} />
+                    </Form.Group>
+                    <br />
+                    <Form.Group controlId="hasSets">
+                        <Form.Check
+                            type="checkbox"
+                            label="Has Sets"
+                            name="hasSets"
+                            checked={hasSets}
+                            onChange={handleCheckboxChange}
+                        />
+                    </Form.Group>
                     <Form.Group controlId="sets">
                         <Form.Label><b>Sets</b></Form.Label>
-                        <Form.Control required type="number" name="sets" value={formData.sets} onChange={handleTextChange} />
+                        <Form.Control disabled={!hasSets} type="number" name="sets" pattern="[0-9]*" min={1} inputMode="numeric" value={formData.sets} onChange={handleTextChange} />
                     </Form.Group>
                     <br />
+                    <Form.Group controlId="hasReps">
+                        <Form.Check
+                            type="checkbox"
+                            label="Has Reps"
+                            name="hasReps"
+                            checked={hasReps}
+                            onChange={handleCheckboxChange}
+                        />
+                    </Form.Group>
                     <Form.Group controlId="reps">
                         <Form.Label><b>Reps</b></Form.Label>
-                        <Form.Control required type="number" name="reps" value={formData.reps} onChange={handleTextChange} />
-                    </Form.Group>
-                    <br />
-                    <Form.Group controlId="duration">
-                        <Form.Label><b>Duration</b></Form.Label>
-                        <Form.Control required type="number" name="duration" value={formData.duration} onChange={handleTextChange} />
+                        <Form.Control disabled={!hasReps} type="number" name="reps" pattern="[0-9]*" min={1} inputMode="numeric" value={formData.reps} onChange={handleTextChange} />
                     </Form.Group>
                     <br />
                     <Form.Group controlId="video_url">
                         <Form.Label><b>YouTube video URL</b></Form.Label>
-                        <Form.Control type="text" name="video_url" value={formData.video_url} onChange={handleTextChange} />
+                        <Form.Control type="text" isInvalid={!!error} name="video_url" value={formData.video_url} onChange={handleTextChange} />
                         <Form.Control.Feedback type="invalid">
-                            Please provide a valid YouTube URL.
+                            {error}
                         </Form.Control.Feedback>
                     </Form.Group>
                     <br />
