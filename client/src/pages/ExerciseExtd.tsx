@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Nav from "../components/Navbar";
+import ResponsiveNavbar from "../components/Navbar";
 import CommentListItem from "../components/Comment/CommentListItem";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ import CreateCommentModal from "../components/Comment/CreateComment";
 import DeleteCommentModal from "../components/Comment/DeleteComment";
 import EditCommentModal from "../components/Comment/EditComment";
 import YouTube from "react-youtube";
-import YouTubeVideoId from "youtube-video-id";
 import "./home.css";
 
 interface ExerciseWrapper {
@@ -130,9 +129,11 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
 
     return (
         <>
-            <Nav />
-            <Button onClick={() => navigate(-1)}>Back</Button>
+            <ResponsiveNavbar />
             <div className="container-box">
+                <Button onClick={() => navigate(-1)}>Back</Button>
+                <br />
+                <br />
                 <h1>{exercise.title}</h1>
                 <p>{exercise.description}</p>
                 <p><b>Difficulty:</b> {exercise.difficulty}</p>
@@ -168,7 +169,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
                                     <Card.Text>{comment.text}</Card.Text>
                                 </Card.Body>
                                 <Card.Footer className="container-row">
-                                    {user && user.uuid === comment.userId && (
+                                    {user && (user.roleId > 1 || user.uuid === comment.userId) && (
                                         <>
                                             <Button variant="primary" onClick={() => {
                                                 setSelectedComment(comment);

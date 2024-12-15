@@ -8,9 +8,4 @@ export interface CategoryDto {
      * Description for a category
      */
     description: string;
-
-    /**
-     * URL for an image visualizing a category 
-     */
-    image_url?: string;
 }

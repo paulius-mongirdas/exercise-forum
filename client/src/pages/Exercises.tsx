@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Nav from "../components/Navbar";
+import ResponsiveNavbar from "../components/Navbar";
 import axios from "axios";
 import ExerciseListItem from "../components/Exercise/ExerciseListItem";
 import { Button, Card, CardGroup, Col, ListGroup, Row } from "react-bootstrap";
@@ -73,9 +73,11 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
 
     return (
         <>
-            <Nav />
-            <Button onClick={() => navigate(-1)}>Back</Button>
+            <ResponsiveNavbar />
             <div className="container-box">
+            <Button onClick={() => navigate(-1)}>Back</Button>
+                <br />
+                <br />
                 <div className="container-row">
                     <h3>Exercises for {category}</h3>
                     {user && (

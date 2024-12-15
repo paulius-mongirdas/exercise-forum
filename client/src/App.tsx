@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./pages/Home";
 import Exercises from "./pages/Exercises";
 import Exercise from "./pages/ExerciseExtd";
+import Profile from "./pages/Profile";
 
 const UseNav = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ function App() {
         <Route path="/api/home" element={<Home />} />
         <Route path="/api/categories/:id/exercises" element={<ExerciseListWrapper />} />
         <Route path="/api/categories/:id/exercises/:exerciseId" element={<ExerciseWrapper />} />
+        <Route path="/api/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,28 +1,25 @@
-import { useNavigate } from 'react-router-dom';
-import Navi from 'react-bootstrap/Nav';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { NavDropdown } from 'react-bootstrap';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import ResponsiveNavbar from "../components/Navbar";
 
 interface User {
     id: number;
     name: string;
     roleId: number;
+    email: string;
 }
 
-const ResponsiveNavbar: React.FC<{}> = () => {
-    const navigate = useNavigate();
-    const [expanded, setExpanded] = useState(false);
-
+const Profile = () => {
     const [user, setUser] = useState<User | null>(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-
-    let isRefreshing = false;
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (accessToken !== null) {
+        if (accessToken) {
             axios.get('http://localhost:8000/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
@@ -32,7 +29,7 @@ const ResponsiveNavbar: React.FC<{}> = () => {
             }).catch((error) => {
                 if (error.response?.data?.details === 'TokenExpiredError') {
                     if (!isRefreshing) {
-                        isRefreshing = true;
+                        setIsRefreshing(true);
 
                         axios.post('http://localhost:8000/api/refresh', {
                             token: refreshToken,
@@ -40,7 +37,7 @@ const ResponsiveNavbar: React.FC<{}> = () => {
                             const newAccessToken = response.data.accessToken;
                             localStorage.setItem('accessToken', newAccessToken);
                             localStorage.setItem('refreshToken', response.data.refreshToken);
-                            isRefreshing = false;
+                            setIsRefreshing(false);
 
                             // Retry the original request
                             axios.get('http://localhost:8000/api/users/me', {
@@ -68,33 +65,28 @@ const ResponsiveNavbar: React.FC<{}> = () => {
     }, []);
 
     return (
-        <Navbar
-            expand="lg"
-            className="bg-body-tertiary"
-            expanded={expanded}
-            style={{ position: 'relative' }} // Ensure proper positioning for sliding effect
-        >
-            <Container fluid style={{ paddingLeft: 10, paddingRight: 10 }}>
-                <Navbar.Brand href="/">Exercise forum</Navbar.Brand>
-                <Navbar.Toggle
-                    aria-controls="basic-navbar-nav"
-                    onClick={() => setExpanded(!expanded)} // Toggle menu
-                />
-                <Navbar.Collapse
-                    id="basic-navbar-nav"
-                    className={`side-slide ${expanded ? 'show' : ''}`}
-                >
-                    <Nav className="justify-content-start flex-grow-1 pe-3">
-                        <Nav.Link href="/api/profile">Profile</Nav.Link>
-                    </Nav>
-
-                    <Nav className="justify-content-end flex-grow-1">
-                        {!user && <Nav.Link href="/api/login">Log in</Nav.Link>}
-                        {user && <Nav.Link href="/api/logout">Log out</Nav.Link>}
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+        <>
+            <ResponsiveNavbar />
+            <div className="container-box">
+                <Button onClick={() => navigate(-1)}>Back</Button>
+                <br />
+                <br />
+                <h3>Profile</h3>
+                {user ? (
+                    <div>
+                        <p><b>Username:</b> {user.name}</p>
+                        <p><b>Email:</b> {user.email}</p>
+                        <p><b>Role:</b> {user.roleId === 1 ? 'Admin' : 'User'}</p>
+                    </div>
+                ) : (
+                    <>
+                        <p>To see your profile, you need to be signed in.</p>
+                        <p>Click <a href="/api/login">here</a> to sign in.</p>
+                        <p>Or, click <a href="/api/register">here</a> to register.</p>
+                    </>
+                )}
+            </div>
+        </>
     );
-};
-export default ResponsiveNavbar;
+}
+export default Profile;

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { set } from "store";
 
 interface CreateExerciseModalProps {
     isVisible: boolean;

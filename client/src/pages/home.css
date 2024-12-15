@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
 .container-box {
     padding: 30px;
 }
@@ -11,13 +13,35 @@
 .card-box {
     margin: 10px;
     min-width: 300px;
+
+    /* Animation properties */
+    animation: floatInFromBelow 0.5s ease-out;
+    opacity: 0; /* Start with invisible */
+    animation-fill-mode: forwards; /* Retain final state after animation */
+}
+
+@keyframes floatInFromBelow {
+    from {
+        transform: translateY(20px); /* Start slightly below */
+        opacity: 0; /* Invisible at the start */
+    }
+    to {
+        transform: translateY(0); /* End at the original position */
+        opacity: 1; /* Fully visible at the end */
+    }
 }
 .video-container {
     max-width: 500px;
 }
 body {
     background-color: #f0f0f0;
+    font-family: 'Josefin Sans', cursive;
 }
 h2 {
     color: #4CAF50;
+}
+footer {
+    background-color: #4CAF50;
+    margin-top: auto; /* Push the footer to the bottom */
+    padding: 10px 0; /* Optional: padding inside the footer */
 }

@@ -2,6 +2,7 @@ import { Exercise } from '@prisma/client';
 import { prisma } from '../../prisma/prisma'; // Importing the shared Prisma instance
 import { ExerciseDto } from './exerciseDto';
 import { ForbiddenError, NotFoundError } from '../errors';
+import { ValidateError } from 'tsoa';
 
 export class ExerciseService {
 
@@ -47,6 +48,13 @@ export class ExerciseService {
             throw new NotFoundError(`Category with id ${categoryId} not found`);
         }
 
+        const youtubeRegex = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        if (exerciseData.video_url && !youtubeRegex.test(exerciseData.video_url)) {
+            throw new ValidateError({  "video_url": {
+                "message": "Please provide a valid YouTube URL. Otherwise, leave the field empty.",
+                "value": `${exerciseData.video_url}` // the invalid phone number value
+              }}, "Please provide a valid YouTube URL. Otherwise, leave the field empty.");
+        }
         return await prisma.exercise.create({
             data: {
                 title: exerciseData.title,
@@ -81,7 +89,15 @@ export class ExerciseService {
         }
 
         if (userRole !== "admin" && _exercise.userId !== userId) {
-            throw new ForbiddenError("You are not authorized to update this comment");
+            throw new ForbiddenError("You are not authorized to update this exercise");
+        }
+
+        const youtubeRegex = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        if (exerciseData.video_url && !youtubeRegex.test(exerciseData.video_url)) {
+            throw new ValidateError({  "video_url": {
+                "message": "Please provide a valid YouTube URL. Otherwise, leave the field empty.",
+                "value": `${exerciseData.video_url}` // the invalid phone number value
+              }}, "Please provide a valid YouTube URL. Otherwise, leave the field empty.");
         }
 
         return await prisma.exercise.update({
@@ -112,7 +128,7 @@ export class ExerciseService {
         }
 
         if (userRole !== "admin" && _exercise.userId !== userId) {
-            throw new ForbiddenError("You are not authorized to update this comment");
+            throw new ForbiddenError("You are not authorized to update this exercise");
         }
 
         await prisma.exercise.delete({

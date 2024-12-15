@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Nav from "../components/Navbar";
+import ResponsiveNavbar from "../components/Navbar";
 import axios from "axios";
 import { Button, Card, CardGroup, Col, Container, ListGroup, Row, Table } from "react-bootstrap";
 import { useState } from "react";
@@ -7,10 +7,10 @@ import Category from "../components/Category/CategoryListItem";
 import "./home.css";
 import CreateCategoryModal from "../components/Category/CreateCategory";
 import DeleteCategoryModal from "../components/Category/DeleteCategory";
-import { set } from "store";
 import { Link } from "react-router-dom";
 import EditCategoryModal from "../components/Category/EditCategory";
 import { toast } from "react-toastify";
+import Footer from "../components/Footer";
 
 interface User {
     id: number;
@@ -78,7 +78,7 @@ const Home = () => {
 
     return (
         <>
-            <Nav />
+            <ResponsiveNavbar />
             <div className="container-box">
                 <h2>{welcomeMessage}</h2>
                 <br />
@@ -137,6 +137,7 @@ const Home = () => {
                     onClose={() => setShowEditCategory(false)}
                     category={selectedCategory} />
             )}
+            <Footer/>
         </>
     );
 }
