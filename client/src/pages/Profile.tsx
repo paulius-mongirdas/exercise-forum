@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ResponsiveNavbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 interface User {
     id: number;
@@ -86,6 +87,7 @@ const Profile = () => {
                     </>
                 )}
             </div>
+            <Footer/>
         </>
     );
 }

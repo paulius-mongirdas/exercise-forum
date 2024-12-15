@@ -2,6 +2,7 @@
 
 .container-box {
     padding: 30px;
+    min-height: 100vh;
 }
 .container-row {
     display: flex;
@@ -31,7 +32,7 @@
     }
 }
 .video-container {
-    max-width: 500px;
+
 }
 body {
     background-color: #f0f0f0;
@@ -41,7 +42,27 @@ h2 {
     color: #4CAF50;
 }
 footer {
-    background-color: #4CAF50;
-    margin-top: auto; /* Push the footer to the bottom */
+    background-color: #7d7d7d;
+    margin-top: auto;
     padding: 10px 0; /* Optional: padding inside the footer */
+}
+.footer-content {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center the content */
+    gap: 10px; /* Space between the SVGs and the text */
+    text-align: center;
+}
+
+.footer-icon {
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    fill: currentColor; /* Use the current text color */
+}
+
+.footer-text {
+    color: #d8d8d8;
+}
+.login-box {
+    background-color: #ffffff;
 }

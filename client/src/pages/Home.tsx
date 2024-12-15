@@ -86,7 +86,7 @@ const Home = () => {
                     <h3>Categories</h3>
                     <br />
                     {user && user.roleId > 1 && (
-                        <Button onClick={() => setShowCreateCategory(true)}>Create Category</Button>)}
+                        <Button variant="success" onClick={() => setShowCreateCategory(true)}>Create Category</Button>)}
                     {showCreateCategory && (
                         <CreateCategoryModal isVisible={showCreateCategory}
                             onClose={() => setShowCreateCategory(false)} />
@@ -104,15 +104,15 @@ const Home = () => {
                                 </Card.Body>
                                 <Card.Footer className="container-row">
                                     <Link to={"/api/categories/" + category.id + "/exercises"}>
-                                        <Button variant="primary">View exercises</Button>
+                                        <Button variant="secondary">View exercises</Button>
                                     </Link>
                                     {user && user.roleId > 1 && (
                                         <>
-                                            <Button onClick={() => {
+                                            <Button variant="warning" onClick={() => {
                                                 setSelectedCategory(category);
                                                 setShowEditCategory(true);
                                             }}>Edit</Button>
-                                            <Button onClick={() => {
+                                            <Button variant="danger" onClick={() => {
                                                 setSelectedCategory(category);
                                                 setShowDeleteCategory(true);
                                             }}>Delete</Button>

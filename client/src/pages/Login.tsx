@@ -41,8 +41,7 @@ const Login = () => {
         <div className="container">
             <h2 className="text-center text-dark mt-4">Exercise forum</h2>
             <div className="col-md-6 offset-md-3 mt-5">
-                <div className="cardbody-color p-lg-4 my-5">
-
+                <div className="login-box p-lg-4 my-5">
                     <Form
                     onSubmit={handleLogin}
                     >
@@ -56,7 +55,7 @@ const Login = () => {
                             <Form.Control className="mb-4" name="password" type="password" onChange={handleInputChange}/>
                         </Form.Group>
 
-                        <Button className="btn btn-color px-5 mb-3 w-100" type="submit">
+                        <Button variant="success" className="btn btn-color px-5 mb-3 w-100" type="submit">
                             Login
                         </Button>
                         <div id="emailHelp" className="form-text text-center mb-5 text-dark">Not

@@ -9,6 +9,7 @@ import DeleteCommentModal from "../components/Comment/DeleteComment";
 import EditCommentModal from "../components/Comment/EditComment";
 import YouTube from "react-youtube";
 import "./home.css";
+import Footer from "../components/Footer";
 
 interface ExerciseWrapper {
     id: number;
@@ -131,32 +132,36 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
         <>
             <ResponsiveNavbar />
             <div className="container-box">
-                <Button onClick={() => navigate(-1)}>Back</Button>
+                <Button variant="secondary" onClick={() => navigate(-1)}>Back</Button>
                 <br />
                 <br />
-                <h1>{exercise.title}</h1>
-                <p>{exercise.description}</p>
-                <p><b>Difficulty:</b> {exercise.difficulty}</p>
-                <p><b>Duration:</b> {exercise.duration} minutes</p>
-                {exercise.sets > 0 && (
-                    <p><b>Sets:</b> {exercise.sets}</p>
-                )}
-                {exercise.reps > 0 && (
-                    <p><b>Reps:</b> {exercise.reps}</p>
-                )}
-                {youtubeRegEx.test(exercise.video_url) && (
-                    <>
-                        <p><b>Video:</b></p>
-                        <div className="video-container">
-                            <YouTube videoId={getId(exercise.video_url)} opts={opts} />
-                        </div>
-                    </>
-                )}
+                <Card>
+                    <Card.Body>
+                        <h1>{exercise.title}</h1>
+                        <p>{exercise.description}</p>
+                        <p><b>Difficulty:</b> {exercise.difficulty}</p>
+                        <p><b>Duration:</b> {exercise.duration} minutes</p>
+                        {exercise.sets > 0 && (
+                            <p><b>Sets:</b> {exercise.sets}</p>
+                        )}
+                        {exercise.reps > 0 && (
+                            <p><b>Reps:</b> {exercise.reps}</p>
+                        )}
+                        {youtubeRegEx.test(exercise.video_url) && (
+                            <>
+                                <p><b>Video:</b></p>
+                                <div className="video-container">
+                                    <YouTube videoId={getId(exercise.video_url)} opts={opts} />
+                                </div>
+                            </>
+                        )}
+                    </Card.Body>
+                </Card>
                 <br />
                 <div className="container-row">
                     <h3>Comments</h3>
                     {user && (
-                        <Button onClick={() => setShowCreateComment(true)}>Create Comment</Button>)}
+                        <Button variant="success" onClick={() => setShowCreateComment(true)}>Create Comment</Button>)}
                 </div>
                 <Row className="g-2">
                     {[...comments].reverse().map((comment, index) => (
@@ -171,7 +176,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
                                 <Card.Footer className="container-row">
                                     {user && (user.roleId > 1 || user.uuid === comment.userId) && (
                                         <>
-                                            <Button variant="primary" onClick={() => {
+                                            <Button variant="warning" onClick={() => {
                                                 setSelectedComment(comment);
                                                 setShowEditComment(true);
                                             }}>Edit</Button>
@@ -188,6 +193,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
                     ))}
                 </Row>
             </div>
+            <Footer />
             {showCreateComment && (
                 <CreateCommentModal isVisible={showCreateComment}
                     onClose={() => setShowCreateComment(false)}

@@ -8,6 +8,7 @@ import Exercise from "./ExerciseExtd";
 import CreateExerciseModal from "../components/Exercise/CreateExercise";
 import DeleteExerciseModal from "../components/Exercise/DeleteExercise";
 import EditExerciseModal from "../components/Exercise/EditExercise";
+import Footer from "../components/Footer";
 
 interface Exercises {
     categoryID: number;
@@ -75,13 +76,13 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
         <>
             <ResponsiveNavbar />
             <div className="container-box">
-            <Button onClick={() => navigate(-1)}>Back</Button>
+                <Button variant="secondary" onClick={() => navigate(-1)}>Back</Button>
                 <br />
                 <br />
                 <div className="container-row">
                     <h3>Exercises for {category}</h3>
                     {user && (
-                        <Button onClick={() => setShowCreateExercise(true)}>Create Exercise</Button>)}
+                        <Button variant="success" onClick={() => setShowCreateExercise(true)}>Create Exercise</Button>)}
                 </div>
                 <Row className="g-2">
                     {[...exercises].reverse().map((exercise, index) => (
@@ -111,15 +112,15 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
                                 </Card.Body>
                                 <Card.Footer className="container-row">
                                     <Link to={`/api/categories/${exercise.categoryId}/exercises/${exercise.id}`}>
-                                        <Button variant="primary">View</Button>
+                                        <Button variant="secondary">View</Button>
                                     </Link>
                                     {user && (user.roleId > 1 || user.uuid === exercise.userId) && (
                                         <>
-                                            <Button onClick={() => {
+                                            <Button variant="warning" onClick={() => {
                                                 setSelectedExercise(exercise);
                                                 setShowEditExercise(true);
                                             }}>Edit</Button>
-                                            <Button onClick={() => {
+                                            <Button variant="danger" onClick={() => {
                                                 setSelectedExercise(exercise);
                                                 setShowDeleteExercise(true);
                                             }}>Delete</Button>
@@ -146,6 +147,7 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
                     onClose={() => setShowEditExercise(false)}
                     exercise={selectedExercise} />
             )}
+            <Footer />
         </>
     );
 }
