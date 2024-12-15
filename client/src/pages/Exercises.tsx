@@ -9,6 +9,7 @@ import CreateExerciseModal from "../components/Exercise/CreateExercise";
 import DeleteExerciseModal from "../components/Exercise/DeleteExercise";
 import EditExerciseModal from "../components/Exercise/EditExercise";
 import Footer from "../components/Footer";
+import apiClient from "../ApiClient";
 
 interface Exercises {
     categoryID: number;
@@ -35,7 +36,7 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
 
     useEffect(() => {
         if (accessToken !== null) {
-            axios.get('http://localhost:8000/api/users/me', {
+            apiClient.get('/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
                 }
@@ -49,7 +50,7 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/categories/' + categoryID + '/exercises').then((response) => {
+        apiClient.get('/api/categories/' + categoryID + '/exercises').then((response) => {
             const exercises = response.data.map((exercise: ExerciseListItem) => ({
                 id: exercise.id,
                 userId: exercise.userId,
@@ -67,7 +68,7 @@ const Exercises: React.FC<Exercises> = ({ categoryID }) => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/categories/' + categoryID).then((response) => {
+        apiClient.get('/api/categories/' + categoryID).then((response) => {
             setCategory(response.data.title);
         });
     }, []);

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import apiClient from "../../ApiClient";
 
 interface DeleteCategoryModalProps {
     isVisible: boolean;
@@ -12,7 +13,7 @@ interface DeleteCategoryModalProps {
 const DeleteCategoryModal: React.FC<DeleteCategoryModalProps> = ({ isVisible, onClose, categoryId, categoryTitle }) => {
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/categories/${categoryId}`, {
+            const response = await apiClient.delete(`/api/categories/${categoryId}`, {
                 headers: {
                     Authorization: localStorage.getItem('accessToken'),
                 },

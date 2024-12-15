@@ -4,6 +4,7 @@ import { Form, Button } from "react-bootstrap";
 import axios from 'axios';
 import React from "react";
 import "./login.css";
+import apiClient from "../ApiClient";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -22,9 +23,10 @@ const Register = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Form data:', formData);
+        console.log('Base URL:', apiClient.defaults.baseURL); 
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/register`, formData, {
+            const response = await apiClient.post(`/api/register`, formData, {
                 headers: {
                     "Content-Type": "application/json"
                 },

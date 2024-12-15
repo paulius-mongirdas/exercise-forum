@@ -1,4 +1,4 @@
-import express, { json, urlencoded } from "express";
+import { urlencoded } from "express";
 import { RegisterRoutes } from "../build/routes";
 import { ForbiddenError, NotFoundError, UnauthorizedError } from "./errors"
 import cors from "cors";
@@ -27,7 +27,7 @@ app.use(function errorHandler(
   req: ExRequest,
   res: ExResponse,
   next: NextFunction
-): ExResponse | void {
+): ExResponse | any {
 
   if (err instanceof SyntaxError) {
     return res.status(400).json({
@@ -72,42 +72,16 @@ app.use(function errorHandler(
 });
 
 // If no other error was matched, it means a 405 error (probably)
-app.use((req : ExRequest, res : ExResponse, next : NextFunction) => {
+app.use((_err: unknown, req: ExRequest, res: ExResponse, next: NextFunction): ExResponse | any => {
   const method = req.method.toUpperCase();
-  //const idInUrl = req.params?.id !== undefined;
+  
+  // Add condition for methods you want to handle, for example:
+  const allowedMethods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'];
 
-  if (method === 'GET') {
+  if (!allowedMethods.includes(method)) {
     return res.status(405).json({
       response: "Method Not Allowed (405)",
-      details: `Cannot GET ${req.path}`,
-    });
-  }
-
-  if (method === 'POST') {
-    return res.status(405).json({
-      response: "Method Not Allowed (405)",
-      details: `Cannot POST ${req.path}`,
-    });
-  }
-
-  if (method === 'PATCH') {
-    return res.status(405).json({
-      response: "Method Not Allowed (405)",
-      details: `Cannot PATCH ${req.path}`,
-    });
-  }
-
-  if (method === 'PUT') {
-    return res.status(405).json({
-      response: "Method Not Allowed (405)",
-      details: `Cannot PUT ${req.path}`,
-    });
-  }
-
-  if (method === 'DELETE') {
-    return res.status(405).json({
-      response: "Method Not Allowed (405)",
-      details: `Cannot DELETE ${req.path}`,
+      details: `Cannot ${method} ${req.path}`,
     });
   }
 

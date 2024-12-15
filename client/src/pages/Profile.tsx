@@ -4,6 +4,7 @@ import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import ResponsiveNavbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import apiClient from "../ApiClient";
 
 interface User {
     id: number;
@@ -21,7 +22,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (accessToken) {
-            axios.get('http://localhost:8000/api/users/me', {
+            apiClient.get('/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
                 }
@@ -32,7 +33,7 @@ const Profile = () => {
                     if (!isRefreshing) {
                         setIsRefreshing(true);
 
-                        axios.post('http://localhost:8000/api/refresh', {
+                        apiClient.post('/api/refresh', {
                             token: refreshToken,
                         }).then((response) => {
                             const newAccessToken = response.data.accessToken;
@@ -41,7 +42,7 @@ const Profile = () => {
                             setIsRefreshing(false);
 
                             // Retry the original request
-                            axios.get('http://localhost:8000/api/users/me', {
+                            apiClient.get('/api/users/me', {
                                 headers: {
                                     Authorization: `${newAccessToken}`
                                 }
@@ -77,7 +78,7 @@ const Profile = () => {
                     <div>
                         <p><b>Username:</b> {user.name}</p>
                         <p><b>Email:</b> {user.email}</p>
-                        <p><b>Role:</b> {user.roleId === 1 ? 'Admin' : 'User'}</p>
+                        <p><b>Role:</b> {user.roleId > 1 ? 'admin' : 'user'}</p>
                     </div>
                 ) : (
                     <>

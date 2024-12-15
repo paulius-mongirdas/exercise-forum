@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../ApiClient";
 import React, { useEffect, useState } from "react";
 
 interface User {
@@ -13,7 +13,7 @@ const Footer = () => {
 
     useEffect(() => {
         if (accessToken !== null) {
-            axios.get('http://localhost:8000/api/users/me', {
+            apiClient.get('/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
                 }

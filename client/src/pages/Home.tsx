@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import EditCategoryModal from "../components/Category/EditCategory";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
+import apiClient from "../ApiClient";
 
 interface User {
     id: number;
@@ -47,7 +48,7 @@ const Home = () => {
 
     useEffect(() => {
         if (accessToken !== null) {
-            axios.get('http://localhost:8000/api/users/me', {
+            apiClient.get('/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
                 }
@@ -65,7 +66,7 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/categories').then((response) => {
+        apiClient.get('/api/categories').then((response) => {
             const categories = response.data.map((category: Category) => ({
                 id: category.id,
                 title: category.title,

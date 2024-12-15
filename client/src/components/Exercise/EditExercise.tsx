@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Exercise from "../../pages/ExerciseExtd";
-import axios from "axios";
+import apiClient from "../../ApiClient";
 import { Button, Form, Modal } from "react-bootstrap";
 
 interface EditExerciseModalProps {
@@ -59,7 +59,7 @@ const EditExerciseModal: React.FC<EditExerciseModalProps> = ({ isVisible, onClos
             setError('');
             setValidated(true);
             try {
-                const response = await axios.put(`http://localhost:8000/api/categories/${exercise.categoryId}/exercises/${exercise.id}`, {
+                const response = await apiClient.put(`/api/categories/${exercise.categoryId}/exercises/${exercise.id}`, {
                     title: formData.title,
                     difficulty: formData.difficulty,
                     description: formData.description,

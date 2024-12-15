@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import axios from 'axios';
 import React from "react";
+import apiClient from "../ApiClient";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Login = () => {
         console.log('Form data:', formData);
 
         try {
-            const response = await axios.post(`http://localhost:8000/api/login`, formData, {
+            const response = await apiClient.post(`/api/login`, formData, {
                 headers: {
                     "Content-Type": "application/json"
                 },

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Form, Modal } from "react-bootstrap";
+import apiClient from "../../ApiClient";
 
 interface EditCommentModalProps {
     isVisible: boolean;
@@ -30,7 +31,7 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({ isVisible, onClose,
         e.preventDefault();
         console.log('Form Data:', formData);
         try {
-            const response = await axios.put(`http://localhost:8000/api/categories/${categoryId}/exercises/${comment.exerciseId}/comments/${comment.id}`, {
+            const response = await apiClient.put(`/api/categories/${categoryId}/exercises/${comment.exerciseId}/comments/${comment.id}`, {
                 ...formData,
             }, {
                 headers: {

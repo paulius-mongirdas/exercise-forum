@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import apiClient from "../../ApiClient";
 
 interface CreateExerciseModalProps {
     isVisible: boolean;
@@ -58,7 +58,7 @@ const CreateExerciseModal: React.FC<CreateExerciseModalProps> = ({ isVisible, on
             setError('');
             setValidated(true);
             try {
-                const response = await axios.post(`http://localhost:8000/api/categories/${categoryId}/exercises`, {
+                const response = await apiClient.post(`/api/categories/${categoryId}/exercises`, {
                     title: formData.title,
                     difficulty: formData.difficulty,
                     description: formData.description,

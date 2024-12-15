@@ -6,7 +6,6 @@ import { verifyRefreshToken } from '../utils/verifyToken';
 import { LoginDto } from './loginDto';
 import { RegisterDto } from './registerDto';
 import bcryptjs from 'bcryptjs';
-import store from 'store';
 
 export class AuthService {
     public async register(user: RegisterDto) {
@@ -42,6 +41,10 @@ export class AuthService {
         }*/
 
         const userRole = await prisma.role.findUnique({ where: { id: foundUser.roleId }, select: { name: true } });
+        if (!userRole) {
+            throw new SyntaxError('User role not found');
+        }
+
         const accessToken = await generateJWT(foundUser.uuid, userRole.name);
 
         const refreshToken = await generateRefreshJWT(foundUser.uuid, userRole.name);
@@ -102,22 +105,8 @@ export class AuthService {
         }
     }
 
-    public async logout() {
-        const localToken = store.get('refreshToken');
-
-        if (!localToken) {
-            throw new UnauthorizedError('Unauthorized');
-        }
-
-        store.remove('refreshToken');
-
-        const dbToken = await prisma.refreshToken.findUnique({ where: { token: localToken } });
-
-        if (!dbToken) {
-            throw new UnauthorizedError('Unauthorized');
-        }
-
-        await prisma.refreshToken.delete({ where: { token: localToken } });
+    public async logout(user: LogoutDto) {
+        await prisma.refreshToken.deleteMany({ where: { userId: user.uuid } });
 
         return {
             ok: 1,

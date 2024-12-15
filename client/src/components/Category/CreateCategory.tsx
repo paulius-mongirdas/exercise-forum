@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
+import apiClient from "../../ApiClient";
 
 interface CreateCategoryModalProps {
     isVisible: boolean;
@@ -25,7 +26,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({ isVisible, on
         e.preventDefault();
         console.log('Form Data:', formData);
         try {
-            const response = await axios.post('http://localhost:8000/api/categories', {
+            const response = await apiClient.post('/api/categories', {
                 ...formData,
             }, {
                 headers: {

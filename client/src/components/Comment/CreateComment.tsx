@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import apiClient from "../../ApiClient";
 
 interface CreateCommentModalProps {
     isVisible: boolean;
@@ -23,7 +24,7 @@ const CreateCommentModal: React.FC<CreateCommentModalProps> = ({ isVisible, onCl
         e.preventDefault();
         console.log('Form Data:', formData);
         try {
-            const response = await axios.post(`http://localhost:8000/api/categories/${categoryId}/exercises/${exerciseId}/comments`, {
+            const response = await apiClient.post(`/api/categories/${categoryId}/exercises/${exerciseId}/comments`, {
                 ...formData,
             }, {
                 headers: {

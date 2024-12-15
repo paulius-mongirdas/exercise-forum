@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
+import apiClient from "../../ApiClient";
 
 interface DeleteCommentModalProps {
     isVisible: boolean;
@@ -13,7 +14,7 @@ interface DeleteCommentModalProps {
 const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({ isVisible, onClose, commentId, exerciseId, categoryId }) => {
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/categories/${categoryId}/exercises/${exerciseId}/comments/${commentId}`, {
+            const response = await apiClient.delete(`/api/categories/${categoryId}/exercises/${exerciseId}/comments/${commentId}`, {
                 headers: {
                     Authorization: localStorage.getItem('accessToken'),
                 },

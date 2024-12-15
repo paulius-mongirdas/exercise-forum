@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../../ApiClient";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
@@ -19,7 +19,7 @@ const Comment: React.FC<Comment> = ({userId}) => {
     });
     
     useEffect(() => {
-        axios.get('http://localhost:8000/api/users/' + userId).then((response) => {
+        apiClient.get('/api/users/' + userId).then((response) => {
             setUser(response.data);
         });
     }, []);

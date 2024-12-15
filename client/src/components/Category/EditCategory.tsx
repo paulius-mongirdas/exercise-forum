@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import Category from "./CategoryListItem";
+import apiClient from "../../ApiClient";
 
 interface EditCategoryModalProps {
     isVisible: boolean;
@@ -24,7 +25,7 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ isVisible, onClos
         e.preventDefault();
         console.log('Form Data:', formData);
         try {
-            const response = await axios.put(`http://localhost:8000/api/categories/${category.id}`, {
+            const response = await apiClient.put(`/api/categories/${category.id}`, {
                 ...formData,
             }, {
                 headers: {

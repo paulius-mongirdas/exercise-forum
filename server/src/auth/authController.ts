@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Route, Request } from "tsoa";
+import { Body, Controller, Post, Route } from "tsoa";
 import { User } from "@prisma/client";
 import { AuthService } from "./authService";
 import { RegisterDto } from "./registerDto";
@@ -41,7 +41,7 @@ export class AuthController extends Controller {
      * Log out a user
      */
     @Post("logout")
-    public async logout(): Promise<{}> {
-        return new AuthService().logout();
+    public async logout(@Body() user: LogoutDto): Promise<{}> {
+        return new AuthService().logout(user);
     }
 }

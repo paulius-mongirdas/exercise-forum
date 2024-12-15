@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Body, Controller, Get, Path, Route, Security, Request } from "tsoa";
+import { Controller, Get, Path, Route, Security, Request } from "tsoa";
 import { UserService } from "./userService";
 
 @Route("api/users")

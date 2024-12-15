@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Navi from 'react-bootstrap/Nav';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import apiClient from '../ApiClient';
 import { NavDropdown } from 'react-bootstrap';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 
@@ -23,7 +23,7 @@ const ResponsiveNavbar: React.FC<{}> = () => {
 
     useEffect(() => {
         if (accessToken !== null) {
-            axios.get('http://localhost:8000/api/users/me', {
+            apiClient.get('/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
                 }
@@ -34,7 +34,7 @@ const ResponsiveNavbar: React.FC<{}> = () => {
                     if (!isRefreshing) {
                         isRefreshing = true;
 
-                        axios.post('http://localhost:8000/api/refresh', {
+                        apiClient.post('/api/refresh', {
                             token: refreshToken,
                         }).then((response) => {
                             const newAccessToken = response.data.accessToken;
@@ -43,7 +43,7 @@ const ResponsiveNavbar: React.FC<{}> = () => {
                             isRefreshing = false;
 
                             // Retry the original request
-                            axios.get('http://localhost:8000/api/users/me', {
+                            apiClient.get('/api/users/me', {
                                 headers: {
                                     Authorization: `${newAccessToken}`
                                 }

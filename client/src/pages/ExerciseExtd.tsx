@@ -10,6 +10,7 @@ import EditCommentModal from "../components/Comment/EditComment";
 import YouTube from "react-youtube";
 import "./home.css";
 import Footer from "../components/Footer";
+import apiClient from "../ApiClient";
 
 interface ExerciseWrapper {
     id: number;
@@ -85,7 +86,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
 
     useEffect(() => {
         if (accessToken !== null) {
-            axios.get('http://localhost:8000/api/users/me', {
+            apiClient.get('/api/users/me', {
                 headers: {
                     Authorization: `${accessToken}`
                 }
@@ -100,7 +101,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
 
     useEffect(() => {
         try {
-            axios.get('http://localhost:8000/api/categories/' + categoryId + '/exercises/' + id).then((response) => {
+            apiClient.get('/api/categories/' + categoryId + '/exercises/' + id).then((response) => {
                 const exercise = response.data;
                 setExercise(exercise);
                 console.log('video id:', getId(exercise.video_url));
@@ -114,7 +115,7 @@ const Exercise: React.FC<ExerciseWrapper> = ({ id, categoryId }) => {
 
     useEffect(() => {
         try {
-            axios.get('http://localhost:8000/api/categories/' + categoryId + '/exercises/' + id + '/comments').then((response) => {
+            apiClient.get('/api/categories/' + categoryId + '/exercises/' + id + '/comments').then((response) => {
                 const comments = response.data.map((comment: Comment) => ({
                     id: comment.id,
                     userId: comment.userId,

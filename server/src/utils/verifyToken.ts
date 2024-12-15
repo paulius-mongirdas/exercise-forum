@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { ForbiddenError } from "../errors";
-import axios from "axios";
 
 export const verifyTokenWithScopes = (token: string, scopes?: string[]): Promise<any> => {
     return new Promise((resolve, reject) => {
