@@ -16,6 +16,23 @@ kategorija(raumens_pavadinimas, aprašymas) → pratimas(pavadinimas, trukmė, p
 **Naudojamos technologijos:** React (front-end) ir Express.js (back-end). Autorizacijai jwt. Duomenų bazė – PostgreSQL su Prisma ORM.
 
 <!-- Generator: Widdershins v4.1 -->
+![Screenshot from 2024-12-16 00-16-43](https://github.com/user-attachments/assets/641b39da-36a8-41eb-8516-e7bd46627382)
+![image](https://github.com/user-attachments/assets/637aeee5-6352-4db1-a292-7b927fdd099c)
+
+![Screenshot from 2024-12-15 23-50-53](https://github.com/user-attachments/assets/d9e1a24a-c06c-4cc9-8edc-e62b270230ef)
+![image](https://github.com/user-attachments/assets/965f4f45-d0c8-4490-9de5-7c00b5058614)
+
+![Screenshot from 2024-12-16 00-03-25](https://github.com/user-attachments/assets/216974ae-cc64-4316-8baa-4a339b78c50c)
+![image](https://github.com/user-attachments/assets/3f1a542d-5255-4c45-b6ab-39626367a253)
+
+
+
+![Screenshot from 2024-12-16 00-12-56](https://github.com/user-attachments/assets/78f21ffe-be62-4e6b-add3-00bd35cffab2)
+![image](https://github.com/user-attachments/assets/2d928646-9e3e-4747-9671-f2f6283cdc1a)
+
+
+<h1 id="server">Naudotojo sąsaja</h1>
+
 
 <h1 id="server">Sistemos architektūra</h1>
 
