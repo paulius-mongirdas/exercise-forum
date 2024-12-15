@@ -39,8 +39,10 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({ isVisible, on
             console.log('Response from server:', response.data);
             setRefresh(true);
             localStorage.setItem("Status", "Category added Successfully"); // Set the flag
+            alert("Category added Successfully");
         } catch (error) {
             console.error('Error submitting post:', error);
+            alert("Invalid Input. Please try again.");
         }
     };
     if (!isVisible) return null; // Don't render if not visible

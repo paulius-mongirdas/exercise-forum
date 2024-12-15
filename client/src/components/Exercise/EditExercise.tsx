@@ -77,8 +77,10 @@ const EditExerciseModal: React.FC<EditExerciseModalProps> = ({ isVisible, onClos
                 window.location.reload();
                 console.log('Response from server:', response.data);
                 localStorage.setItem("Status", "Exercise updated Successfully"); // Set the flag
+                alert("Exercise updated Successfully");
             } catch (error) {
                 console.error('Error submitting post:', error);
+                alert("Invalid input. Please try again.");
             }
         }
     };

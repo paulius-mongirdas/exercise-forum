@@ -35,6 +35,7 @@ const Login = () => {
         }
         catch (error) {
             console.error('Error on submitting form:', error);
+            alert("Invalid input. Please try again.");
         }
     }
 

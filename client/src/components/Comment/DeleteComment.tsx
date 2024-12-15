@@ -23,6 +23,7 @@ const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({ isVisible, onCl
             onClose();
             window.location.reload();
             localStorage.setItem("Status", "Comment deleted Successfully"); // Set the flag
+            alert("Comment deleted Successfully");
         } catch (error) {
             console.error('Error deleting comment:', error);
         }

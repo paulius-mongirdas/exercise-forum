@@ -37,8 +37,10 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ isVisible, onClos
             window.location.reload();
             console.log('Response from server:', response.data);
             localStorage.setItem("Status", "Category updated Successfully"); // Set the flag
+            alert("Category updated Successfully");
         } catch (error) {
             console.error('Error submitting post:', error);
+            alert("Invalid input. Please try again.");
         }
     };
     if (!isVisible) return null; // Don't render if not visible

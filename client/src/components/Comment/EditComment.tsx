@@ -43,8 +43,10 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({ isVisible, onClose,
             window.location.reload();
             console.log('Response from server:', response.data);
             localStorage.setItem("Status", "Comment updated Successfully"); // Set the flag
+            alert("Comment updated Successfully");
         } catch (error) {
             console.error('Error submitting post:', error);
+            alert("Invalid input. Please try again.");
         }
     };
 

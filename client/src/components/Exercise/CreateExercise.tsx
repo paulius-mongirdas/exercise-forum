@@ -76,8 +76,10 @@ const CreateExerciseModal: React.FC<CreateExerciseModalProps> = ({ isVisible, on
                 window.location.reload();
                 console.log('Response from server:', response.data);
                 localStorage.setItem("Status", "Exercise added Successfully"); // Set the flag
+                alert("Exercise added Successfully");
             } catch (error) {
                 console.error('Error submitting post:', error);
+                alert("Invalid Input. Please try again.");
             }
         }
     };

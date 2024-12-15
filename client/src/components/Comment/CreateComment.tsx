@@ -36,8 +36,10 @@ const CreateCommentModal: React.FC<CreateCommentModalProps> = ({ isVisible, onCl
             window.location.reload();
             console.log('Response from server:', response.data);
             localStorage.setItem("Status", "Comment added Successfully"); // Set the flag
+            alert("Comment added Successfully");
         } catch (error) {
             console.error('Error submitting post:', error);
+            alert("Invalid Input. Please try again.");
         }
     };
 

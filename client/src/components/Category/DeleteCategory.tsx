@@ -22,6 +22,7 @@ const DeleteCategoryModal: React.FC<DeleteCategoryModalProps> = ({ isVisible, on
             onClose();
             window.location.reload();
             localStorage.setItem("Status", "Category deleted Successfully"); // Set the flag
+            alert("Category deleted Successfully");
         } catch (error) {
             console.error('Error deleting category:', error);
         }

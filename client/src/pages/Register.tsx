@@ -36,6 +36,8 @@ const Register = () => {
         }
         catch (error) {
             console.error('Error on submitting form:', error);
+            // notify client of error
+            alert("Invalid input. Please try again.");
         }
     }
 

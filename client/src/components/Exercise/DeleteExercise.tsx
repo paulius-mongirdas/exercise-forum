@@ -22,6 +22,7 @@ const DeleteExerciseModal: React.FC<DeleteExerciseModalProps> = ({ isVisible, on
             onClose();
             window.location.reload();
             localStorage.setItem("Status", "Exercise deleted Successfully"); // Set the flag
+            alert("Exercise deleted Successfully");
         } catch (error) {
             console.error('Error deleting exercise:', error);
         }
