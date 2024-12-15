@@ -16,6 +16,42 @@ Base URLs:
 
 <h1 id="server-default">Default</h1>
 
+## GetCurrentUser
+
+<a id="opIdGetCurrentUser"></a>
+
+`GET /api/users/me`
+
+Get the current user
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "roleId": 0.1,
+  "updatedAt": "2019-08-24T14:15:22Z",
+  "createdAt": "2019-08-24T14:15:22Z",
+  "password": "string",
+  "email": "string",
+  "uuid": "string",
+  "id": 0.1,
+  "name": "string"
+}
+```
+
+<h3 id="getcurrentuser-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|[User](#schemauser)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+jwt ( Scopes: admin user )
+</aside>
+
 ## GetUserByUUID
 
 <a id="opIdGetUserByUUID"></a>
@@ -934,6 +970,76 @@ Log in a user
 This operation does not require authentication
 </aside>
 
+## Refresh
+
+<a id="opIdRefresh"></a>
+
+`POST /api/refresh`
+
+Refresh a user's token
+
+> Body parameter
+
+```json
+{
+  "token": "string"
+}
+```
+
+<h3 id="refresh-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[TokenDto](#schematokendto)|true|A refresh token|
+
+> Example responses
+
+> 200 Response
+
+```json
+{}
+```
+
+<h3 id="refresh-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
+
+<h3 id="refresh-responseschema">Response Schema</h3>
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Logout
+
+<a id="opIdLogout"></a>
+
+`POST /api/logout`
+
+Log out a user
+
+> Example responses
+
+> 200 Response
+
+```json
+{}
+```
+
+<h3 id="logout-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Ok|Inline|
+
+<h3 id="logout-responseschema">Response Schema</h3>
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 # Schemas
 
 <h2 id="tocS_DefaultSelection_Prisma._36_UserPayload_">DefaultSelection_Prisma._36_UserPayload_</h2>
@@ -1329,4 +1435,24 @@ Model Category
 |---|---|---|---|---|
 |email|string|true|none|Email of a user|
 |password|string|true|none|Password of a user|
+
+<h2 id="tocS_TokenDto">TokenDto</h2>
+<!-- backwards compatibility -->
+<a id="schematokendto"></a>
+<a id="schema_TokenDto"></a>
+<a id="tocStokendto"></a>
+<a id="tocstokendto"></a>
+
+```json
+{
+  "token": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|token|string|true|none|JWT token|
 
